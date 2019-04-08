@@ -10,7 +10,7 @@ namespace Server.Interfaces
     {
         Task<IEnumerable<FileCommon>> GetFiles(bool withPublic); 
         Task<FileCommon> DownloadFile(FileCommon file);
-        Task<int> UploadFile(int userId, FileCommon file);
-        Task<bool> DeleteFile(int userId, FileCommon file);
+        Task<int> UploadFile(FileCommon file);
+        Task<bool> DeleteFile(FileCommon file);
     }
 }

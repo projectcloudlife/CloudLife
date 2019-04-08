@@ -1,5 +1,6 @@
 ﻿using Common.Enums;
 using Common.Models;
+using Server.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Server.DAL.Interfaces
  
     public interface IUserRepository
     {
-        Task<AuthEnum> Login(AuthInfo authInfo);
-        Task<AuthEnum> Register(AuthInfo authInfo);
+        Task<UserDB> Get(int Id);
+        Task<UserDB> Create(UserDB user);
     }
 }

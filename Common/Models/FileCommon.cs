@@ -7,6 +7,7 @@ namespace Common.Models
     public class FileCommon
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         /**
          * remarks contains file extantion (ex: test.txt)
          **/
