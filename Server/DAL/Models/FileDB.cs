@@ -8,7 +8,6 @@ namespace Server.DAL.Models
 {
     public class FileDB : FileCommon
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public UserDB User { get; set; }
     }

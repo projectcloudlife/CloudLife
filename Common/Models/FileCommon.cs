@@ -6,8 +6,9 @@ namespace Common.Models
 {
     public class FileCommon
     {
+        public int Id { get; set; }
         /**
-         * remarks Contains file extantion (ex: test.txt)
+         * remarks contains file extantion (ex: test.txt)
          **/
         public string Name { get; set; }
 
