@@ -11,7 +11,11 @@ namespace Server.DAL.Interfaces
  
     public interface IUserRepository
     {
-        Task<UserDB> Get(int Id);
+        //  returns the created UserDB, if username taken throws exception.
         Task<UserDB> Create(UserDB user);
+
+        //  returns UserDB, if not found returns null.
+        Task<UserDB> Get(int Id);
+
     }
 }

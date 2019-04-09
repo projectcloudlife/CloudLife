@@ -10,6 +10,8 @@ namespace Server.DAL.Interfaces
     {
         Task<IEnumerable<FileDB>> GetWhere(Func<FileDB, bool> expr);
         Task<FileDB> DownloadFile(int fileId);
+
+        // returns file id.
         Task<int> UploadFile(FileDB file);
         Task<bool> DeleteFile(int fileId);
     }

@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Server.DAL;
+using Server.DAL.Interfaces;
+using Server.DAL.Repositories;
 
 namespace Server
 {
@@ -29,6 +31,7 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             if(_hostingEnvironment.IsDevelopment())
             {
                 services.AddDbContext<ContextDev>(opts => opts.UseInMemoryDatabase("DEV_01"));
@@ -36,6 +39,10 @@ namespace Server
             {
                 //Add production DB.
             }
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

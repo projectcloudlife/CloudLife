@@ -12,7 +12,7 @@ namespace Common.Models
          * remarks contains file extantion (ex: test.txt)
          **/
         public string Name { get; set; }
-
+        public bool InRecycleBin { get; set; }
         public int SizeInBytes { get; set; }
         /**
          * value not null only when downloading or uploading the file
