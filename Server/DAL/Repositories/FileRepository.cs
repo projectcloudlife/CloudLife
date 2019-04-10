@@ -9,7 +9,6 @@ namespace Server.DAL.Repositories
 {
     public class FileRepository : IFileRepository
     {
-
         public FileRepository(ContextDev context)
         {
             _context = context;
@@ -71,7 +70,7 @@ namespace Server.DAL.Repositories
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
     }
 }

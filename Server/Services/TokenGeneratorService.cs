@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Server.Services
 {
-    public class UserAuthenticationService : IUserAuthenticationService
+    public class TokenGeneratorService : ITokenGeneratorService
     {
         private IConfiguration _conf;
-        public UserAuthenticationService(IConfiguration conf)
+        public TokenGeneratorService(IConfiguration conf)
         {
             _conf = conf;
         }

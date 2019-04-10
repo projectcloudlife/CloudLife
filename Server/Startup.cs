@@ -14,6 +14,8 @@ using Microsoft.Extensions.Options;
 using Server.DAL;
 using Server.DAL.Interfaces;
 using Server.DAL.Repositories;
+using Server.Interfaces;
+using Server.Services;
 
 namespace Server
 {
@@ -42,6 +44,8 @@ namespace Server
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
 
             services
                 .AddCustomAuthentication(Configuration)

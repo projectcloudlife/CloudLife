@@ -13,17 +13,20 @@ namespace Server.Services
     public class AuthService : IAuthService
     {
         IUserRepository _userRepository;
-        IUserAuthenticationService _authenticationService;
+        ITokenGeneratorService _tokenService;
 
-        public AuthService(IUserRepository repo, IUserAuthenticationService _authServ)
+        public AuthService(IUserRepository repo, ITokenGeneratorService _authServ)
         {
             _userRepository = repo;
-            _authenticationService = _authServ;
+            _tokenService = _authServ;
         }
+
         public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
+
             LoginResponse loginResponse = new LoginResponse();
             UserDB user = new UserDB { AuthInfo = authInfo };
+
             using (_userRepository)
             {
                 UserDB userDb = await _userRepository.Get(await GetId(authInfo));
@@ -39,7 +42,7 @@ namespace Server.Services
                 else
                 {
                     loginResponse.AuthInfo = AuthEnum.Success;
-                    loginResponse.Token = await _authenticationService.CreateToken();
+                    loginResponse.Token = await _tokenService.CreateToken();
                 }
                 return loginResponse;
             }
@@ -55,7 +58,7 @@ namespace Server.Services
             }
         }
 
-        private bool PasswordCheck(string password)
+        private bool IsPasswordValid(string password)
         {
             return password.Length > 5;
         }
@@ -64,7 +67,7 @@ namespace Server.Services
         {
             AuthEnum response = new AuthEnum();
 
-            if (PasswordCheck(authInfo.Password))
+            if (!IsPasswordValid(authInfo.Password))
             {
                 response = AuthEnum.BadPassword;
             }

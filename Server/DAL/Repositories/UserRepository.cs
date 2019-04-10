@@ -43,7 +43,7 @@ namespace Server.DAL.Repositories
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
 
         public Task<IEnumerable<UserDB>> GetWhere(Func<UserDB, bool> expr)

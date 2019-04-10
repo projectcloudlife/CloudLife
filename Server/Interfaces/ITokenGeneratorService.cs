@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Server.Interfaces
 {
-    public interface IUserAuthenticationService
+    public interface ITokenGeneratorService
     {
         Task<string> CreateToken();
     }
