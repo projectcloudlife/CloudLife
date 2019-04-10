@@ -68,5 +68,10 @@ namespace Server.DAL.Repositories
             await _context.SaveChangesAsync();
             return newFileEntry.Entity.Id;
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

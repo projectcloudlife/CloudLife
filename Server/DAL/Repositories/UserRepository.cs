@@ -40,5 +40,10 @@ namespace Server.DAL.Repositories
                 return _context.Users.FirstOrDefault(userDb => userDb.Id == Id);
             });
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Server.DAL.Interfaces
 {
  
-    public interface IUserRepository
+    public interface IUserRepository:IDisposable
     {
         //  returns the created UserDB, if username taken throws exception.
         Task<UserDB> Create(UserDB user);
