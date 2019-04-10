@@ -45,5 +45,13 @@ namespace Server.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<UserDB>> GetWhere(Func<UserDB, bool> expr)
+        {
+            return Task.Run(() =>
+            {
+                return (IEnumerable<UserDB>)_context.Users.Where(expr);
+            });
+        }
     }
 }

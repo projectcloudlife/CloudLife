@@ -18,13 +18,13 @@ namespace Server.Services
         {
             _repo = repo;
         }
-        public LoginResponse Login(AuthInfo authInfo)
+        public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
             LoginResponse res = new LoginResponse();
             UserDB user = new UserDB { AuthInfo = authInfo };
             using (_repo)
             {
-                UserDB userDb = _repo.Get(GetId(authInfo.Username));
+                UserDB userDb = await _repo.Get(await GetId(authInfo));
                 if (userDb == null) res.AuthInfo = AuthEnum.BadUsername;
                 else if (userDb.AuthInfo.Password != authInfo.Password) res.AuthInfo = AuthEnum.BadPassword;
                 else
@@ -37,12 +37,22 @@ namespace Server.Services
 
         }
 
+        private async Task<int> GetId(AuthInfo authInfo)
+        {
+            using (_repo)
+            {
+                var users = await _repo.GetWhere(u => u.AuthInfo.Username == authInfo.Username);
+                var user = users.FirstOrDefault();
+                return user.Id;
+            }
+        }
+
         private bool PasswordCheck(string password)
         {
             return password.Length > 5;
         }
 
-        public AuthEnum Register(AuthInfo authInfo)
+        public async Task<AuthEnum> Register(AuthInfo authInfo)
         {
             AuthEnum res = new AuthEnum();
             if (PasswordCheck(authInfo.Password)) res = AuthEnum.BadPassword;
@@ -53,7 +63,7 @@ namespace Server.Services
                 {
                     try
                     {
-                        _repo.Create(user);
+                        await _repo.Create(user);
                         res = AuthEnum.Success;
                     }
                     catch

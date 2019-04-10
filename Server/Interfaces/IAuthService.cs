@@ -9,7 +9,7 @@ namespace Server.Interfaces
 {
     public interface IAuthService
     {
-        LoginResponse Login(AuthInfo authInfo);
-        AuthEnum Register(AuthInfo authInfo);
+        Task<LoginResponse> Login(AuthInfo authInfo);
+        Task<AuthEnum> Register(AuthInfo authInfo);
     }
 }
