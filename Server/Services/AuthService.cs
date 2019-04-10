@@ -12,36 +12,44 @@ namespace Server.Services
 {
     public class AuthService : IAuthService
     {
-        IUserRepository _repo;
+        IUserRepository _userRepository;
+        IUserAuthenticationService _authenticationService;
 
-        public AuthService(IUserRepository repo)
+        public AuthService(IUserRepository repo, IUserAuthenticationService _authServ)
         {
-            _repo = repo;
+            _userRepository = repo;
+            _authenticationService = _authServ;
         }
         public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
-            LoginResponse res = new LoginResponse();
+            LoginResponse loginResponse = new LoginResponse();
             UserDB user = new UserDB { AuthInfo = authInfo };
-            using (_repo)
+            using (_userRepository)
             {
-                UserDB userDb = await _repo.Get(await GetId(authInfo));
-                if (userDb == null) res.AuthInfo = AuthEnum.BadUsername;
-                else if (userDb.AuthInfo.Password != authInfo.Password) res.AuthInfo = AuthEnum.BadPassword;
+                UserDB userDb = await _userRepository.Get(await GetId(authInfo));
+
+                if (userDb == null)
+                {
+                    loginResponse.AuthInfo = AuthEnum.BadUsername;
+                }
+                else if (userDb.AuthInfo.Password != authInfo.Password)
+                {
+                    loginResponse.AuthInfo = AuthEnum.BadPassword;
+                }
                 else
                 {
-                    res.AuthInfo = AuthEnum.Success;
-                    //add toekn
+                    loginResponse.AuthInfo = AuthEnum.Success;
+                    loginResponse.Token = await _authenticationService.CreateToken();
                 }
-                return res;
+                return loginResponse;
             }
-
         }
 
         private async Task<int> GetId(AuthInfo authInfo)
         {
-            using (_repo)
+            using (_userRepository)
             {
-                var users = await _repo.GetWhere(u => u.AuthInfo.Username == authInfo.Username);
+                var users = await _userRepository.GetWhere(u => u.AuthInfo.Username == authInfo.Username);
                 var user = users.FirstOrDefault();
                 return user.Id;
             }
@@ -54,25 +62,29 @@ namespace Server.Services
 
         public async Task<AuthEnum> Register(AuthInfo authInfo)
         {
-            AuthEnum res = new AuthEnum();
-            if (PasswordCheck(authInfo.Password)) res = AuthEnum.BadPassword;
+            AuthEnum response = new AuthEnum();
+
+            if (PasswordCheck(authInfo.Password))
+            {
+                response = AuthEnum.BadPassword;
+            }
             else
             {
                 UserDB user = new UserDB { AuthInfo = authInfo };
-                using (_repo)
+                using (_userRepository)
                 {
                     try
                     {
-                        await _repo.Create(user);
-                        res = AuthEnum.Success;
+                        await _userRepository.Create(user);
+                        response = AuthEnum.Success;
                     }
                     catch
                     {
-                        res = AuthEnum.BadUsername;
+                        response = AuthEnum.BadUsername;
                     }
                 }
             }
-            return res;
+            return response;
         }
     }
 }
