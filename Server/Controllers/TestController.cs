@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Common.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Server.Attributes;
 using Server.DAL.Interfaces;
 using Server.DAL.Models;
+using Server.Extantions;
 
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
+    [TestController]
     [ApiController]
     public class TestController : ControllerBase
     {
@@ -24,23 +29,12 @@ namespace Server.Controllers
         IFileRepository _fileRepository;
         IUserRepository _userRepository;
 
-        public async Task<ActionResult<string>> Test()
-        {
-
-            var userRepoResult = (await UserRepoTest()).Value;
-            var fileRepoResult = (await FileRepoTest()).Value;
-
-            var html = $"User Repository Test: {userRepoResult}\n" +
-                       $"file Repository Test: {fileRepoResult}";
-
-            return html;
-        }
-
         [HttpGet]
         [Route("userrepo")]
         public async Task<ActionResult<bool>> UserRepoTest()
         {
-            var username = "username";
+            Random rnd = new Random();
+            var username = "username" + rnd.Next(100000).ToString();
 
             //Create user
             var user = await _userRepository.Create(new UserDB()
@@ -66,11 +60,14 @@ namespace Server.Controllers
         [Route("filerepo")]
         public async Task<ActionResult<bool>> FileRepoTest()
         {
+            Random rnd = new Random();
+            var username = "username" + rnd.Next(100000).ToString();
+
             var user = await _userRepository.Create(new UserDB()
             {
                 AuthInfo = new AuthInfo()
                 {
-                    Username = "",
+                    Username = username,
                     Password = ""
                 }
             });
