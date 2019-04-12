@@ -11,5 +11,6 @@ namespace Server.Interfaces
     {
         Task<LoginResponse> Login(AuthInfo authInfo);
         Task<AuthEnum> Register(AuthInfo authInfo);
+        Task<int> GetId(AuthInfo authInfo);
     }
 }

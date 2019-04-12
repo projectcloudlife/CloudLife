@@ -12,15 +12,15 @@ using Server.DAL.Interfaces;
 using Server.DAL.Models;
 using Server.Extantions;
 
-namespace Server.Controllers
+namespace Server.Controllers.Testing
 {
     [Route("api/[controller]")]
     [TestController]
     [ApiController]
-    public class TestController : ControllerBase
+    public class RepositoriesTesterController : ControllerBase
     {
 
-        public TestController(IUserRepository userRepository,IFileRepository fileRepository)
+        public RepositoriesTesterController(IUserRepository userRepository,IFileRepository fileRepository)
         {
             _fileRepository = fileRepository;
             _userRepository = userRepository;

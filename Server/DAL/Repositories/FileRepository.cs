@@ -9,6 +9,8 @@ namespace Server.DAL.Repositories
 {
     public class FileRepository : IFileRepository
     {
+        bool disposed = false;
+
         public FileRepository(ContextDev context)
         {
             _context = context;
@@ -70,7 +72,18 @@ namespace Server.DAL.Repositories
 
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
         }
     }
 }

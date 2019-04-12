@@ -43,6 +43,7 @@ namespace Server.Extantions
                 Data = file.Data,
                 Id = file.Id,
                 InRecycleBin = file.InRecycleBin,
+                IsPublic = file.IsPublic,
                 Name = file.Name,
                 SizeInBytes = file.SizeInBytes,
                 UserId = file.UserId
@@ -56,6 +57,7 @@ namespace Server.Extantions
                 Data = file.Data,
                 Id = file.Id,
                 InRecycleBin = file.InRecycleBin,
+                IsPublic = file.IsPublic,
                 Name = file.Name,
                 SizeInBytes = file.SizeInBytes,
                 UserId = file.UserId

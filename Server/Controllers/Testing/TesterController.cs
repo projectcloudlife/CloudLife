@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Attributes;
 using Server.Extantions;
 
-namespace Server.Controllers
+namespace Server.Controllers.Testing
 {
     [Route("tests")]
     public class TesterController : Controller

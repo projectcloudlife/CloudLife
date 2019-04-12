@@ -38,7 +38,7 @@ namespace Server.DAL.Repositories
         {
             return Task.Run(() =>
             {
-                return _context.Users.FirstOrDefault(userDb => userDb.Id == Id);
+                return _context.Users.Find(Id);
             });
         }
 

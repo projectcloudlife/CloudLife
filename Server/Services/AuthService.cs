@@ -23,12 +23,11 @@ namespace Server.Services
 
         public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
-
-            LoginResponse loginResponse = new LoginResponse();           
+            LoginResponse loginResponse = new LoginResponse();
+            var id = await GetId(authInfo);
 
             using (_userRepository)
             {
-                var id = await GetId(authInfo);
                 UserDB userDb = await _userRepository.Get(id);
 
                 if (userDb == null)
@@ -48,13 +47,14 @@ namespace Server.Services
             }
         }
 
-        private async Task<int> GetId(AuthInfo authInfo)
+        public async Task<int> GetId(AuthInfo authInfo)
         {
             using (_userRepository)
             {
-                var users = await _userRepository.GetWhere(u => u.AuthInfo != null 
-                && u.AuthInfo.Username == authInfo.Username);
-                var user = users.FirstOrDefault();
+                var users = await _userRepository.GetWhere(u =>
+                u.AuthInfo.Username == authInfo.Username);
+                var user = users.FirstOrDefault(u => u.AuthInfo != null);
+                if (user == null) { return -1; }
                 return user.Id;
             }
         }
