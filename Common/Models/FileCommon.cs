@@ -14,6 +14,7 @@ namespace Common.Models
         public string Name { get; set; }
         public bool InRecycleBin { get; set; }
         public int SizeInBytes { get; set; }
+        public bool IsPublic { get; set; }
         /**
          * value not null only when downloading or uploading the file
          **/
