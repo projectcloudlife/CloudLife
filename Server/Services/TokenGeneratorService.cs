@@ -14,6 +14,8 @@ namespace Server.Services
     public class TokenGeneratorService : ITokenGeneratorService
     {
         private IConfiguration _conf;
+        public int UserId { get; set; }
+
         public TokenGeneratorService(IConfiguration conf)
         {
             _conf = conf;
@@ -22,11 +24,12 @@ namespace Server.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_conf["Key"]);
+          
             var tokenInfo = new SecurityTokenDescriptor
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, "admin")
+                    new Claim(ClaimTypes.NameIdentifier, UserId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

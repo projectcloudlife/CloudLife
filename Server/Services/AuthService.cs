@@ -40,6 +40,7 @@ namespace Server.Services
                 }
                 else
                 {
+                    _tokenService.UserId = userDb.Id;
                     loginResponse.AuthInfo = AuthEnum.Success;
                     loginResponse.Token = await _tokenService.CreateToken();
                 }

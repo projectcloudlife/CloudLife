@@ -7,6 +7,8 @@ namespace Server.Interfaces
 {
     public interface ITokenGeneratorService
     {
+        int UserId { get; set; }
+
         Task<string> CreateToken();
     }
 }
