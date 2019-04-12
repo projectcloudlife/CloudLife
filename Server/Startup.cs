@@ -45,6 +45,7 @@ namespace Server
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
 
             services

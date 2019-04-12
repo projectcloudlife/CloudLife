@@ -15,21 +15,21 @@ namespace Server.Services
         IUserRepository _userRepository;
         ITokenGeneratorService _tokenService;
 
-        public AuthService(IUserRepository repo, ITokenGeneratorService _authServ)
+        public AuthService(IUserRepository repo, ITokenGeneratorService tokenServ)
         {
             _userRepository = repo;
-            _tokenService = _authServ;
+            _tokenService = tokenServ;
         }
 
         public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
 
-            LoginResponse loginResponse = new LoginResponse();
-            UserDB user = new UserDB { AuthInfo = authInfo };
+            LoginResponse loginResponse = new LoginResponse();           
 
             using (_userRepository)
             {
-                UserDB userDb = await _userRepository.Get(await GetId(authInfo));
+                var id = await GetId(authInfo);
+                UserDB userDb = await _userRepository.Get(id);
 
                 if (userDb == null)
                 {
@@ -52,7 +52,8 @@ namespace Server.Services
         {
             using (_userRepository)
             {
-                var users = await _userRepository.GetWhere(u => u.AuthInfo.Username == authInfo.Username);
+                var users = await _userRepository.GetWhere(u => u.AuthInfo != null 
+                && u.AuthInfo.Username == authInfo.Username);
                 var user = users.FirstOrDefault();
                 return user.Id;
             }

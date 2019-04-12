@@ -9,6 +9,7 @@ namespace Server.DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        bool disposed = false;
 
         public UserRepository(ContextDev context)
         {
@@ -43,14 +44,26 @@ namespace Server.DAL.Repositories
 
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
         }
 
-        public Task<IEnumerable<UserDB>> GetWhere(Func<UserDB, bool> expr)
+        public Task<IEnumerable<UserDB>> GetWhere(System.Linq.Expressions.Expression<Func<UserDB, bool>> expr)
         {
             return Task.Run(() =>
             {
-                return (IEnumerable<UserDB>)_context.Users.Where(expr);
+                var result = (IEnumerable<UserDB>)_context.Users.Where(expr);
+                return result;
             });
         }
     }

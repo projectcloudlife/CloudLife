@@ -17,7 +17,7 @@ namespace Server.DAL.Interfaces
         //  returns UserDB, if not found returns null.
         Task<UserDB> Get(int Id);
 
-        Task<IEnumerable<UserDB>> GetWhere(Func<UserDB, bool> expr);       
+        Task<IEnumerable<UserDB>> GetWhere(System.Linq.Expressions.Expression<Func<UserDB, bool>> expr);       
 
     }
 }

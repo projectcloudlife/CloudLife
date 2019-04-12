@@ -47,7 +47,6 @@ namespace Server.Controllers
             });
 
             var getUser = await _userRepository.Get(user.Id);
-
             if(getUser.AuthInfo.Username != username)
             {
                 return false;
