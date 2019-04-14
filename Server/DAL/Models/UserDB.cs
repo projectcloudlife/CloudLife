@@ -9,7 +9,9 @@ namespace Server.DAL.Models
     public class UserDB
     {
         public int Id { get; set; }
-        public AuthInfo AuthInfo { get; set; }
+       public string Username { get; set; }
+       public string Password { get; set; }
+
         public List<FileDB> Files { get; set; }
     }
 }

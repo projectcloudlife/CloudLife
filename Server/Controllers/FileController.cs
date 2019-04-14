@@ -3,52 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Server.DAL.Interfaces;
 using Server.DAL.Repositories;
 using Server.Extantions;
+using Server.Interfaces;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {
 
-        public FileController(FileRepository fileRepository)
+        public FileController(IFileService fileService)
         {
-            _fileRepository = fileRepository;
+            _fileService = fileService;
         }
 
-        FileRepository _fileRepository;
+        IFileService _fileService;
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FileCommon>>> GetFile()
         {
-            var userId = this.UserId();
-            var files = await _fileRepository.GetWhere(file => file.UserId == userId);
-            return new JsonResult(files.Select(file => file.ToCommon()));
+            var files = await _fileService.GetFiles( this.UserId(),false);
+            return new JsonResult(files);
         }
 
         [HttpPost]
         public async Task<ActionResult<int>> UploadFile([FromBody] FileCommon file)
         {
-            var fileId = await _fileRepository.UploadFile(file.ToDB());
+            file.UserId = this.UserId();
+            var fileId = await _fileService.UploadFile(file.ToDB());
             return new JsonResult(fileId);
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> DeleteFile([FromBody] int fileId)
+        public async Task<ActionResult<bool>> DeleteFile([FromBody] FileCommon file)
         {
-            var success = await _fileRepository.DeleteFile(fileId);
+
+
+            file.UserId = this.UserId();
+            var success = await _fileService.DeleteFile(file);
             return new JsonResult(success);
         } 
 
         [HttpPost]
-        public async Task<ActionResult<FileCommon>> Download([FromBody] int fileId)
+        public async Task<ActionResult<FileCommon>> Download([FromBody] FileCommon file)
         {
-            var file = await _fileRepository.DownloadFile(fileId);
-            return new JsonResult(file);
+            file.UserId = this.UserId();
+            var downloadFile = await _fileService.DownloadFile(file);
+            return new JsonResult(downloadFile);
         }
 
     }

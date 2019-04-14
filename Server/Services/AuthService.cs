@@ -2,6 +2,7 @@
 using Common.Models;
 using Server.DAL.Interfaces;
 using Server.DAL.Models;
+using Server.Extantions;
 using Server.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Server.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService : IAuthService, IDisposable
     {
         IUserRepository _userRepository;
         ITokenGeneratorService _tokenService;
@@ -24,40 +25,26 @@ namespace Server.Services
         public async Task<LoginResponse> Login(AuthInfo authInfo)
         {
             LoginResponse loginResponse = new LoginResponse();
-            var id = await GetId(authInfo);
+            var id = await _userRepository.GetId(authInfo);
 
-            using (_userRepository)
+            UserDB userDb = await _userRepository.Get(id);
+
+            if (userDb == null)
             {
-                UserDB userDb = await _userRepository.Get(id);
-
-                if (userDb == null)
-                {
-                    loginResponse.AuthInfo = AuthEnum.BadUsername;
-                }
-                else if (userDb.AuthInfo.Password != authInfo.Password)
-                {
-                    loginResponse.AuthInfo = AuthEnum.BadPassword;
-                }
-                else
-                {
-                    _tokenService.UserId = userDb.Id;
-                    loginResponse.AuthInfo = AuthEnum.Success;
-                    loginResponse.Token = await _tokenService.CreateToken();
-                }
-                return loginResponse;
+                loginResponse.AuthResponse = AuthEnum.BadUsername;
             }
-        }
-
-        public async Task<int> GetId(AuthInfo authInfo)
-        {
-            using (_userRepository)
+            else if (userDb.Password != authInfo.Password)
             {
-                var users = await _userRepository.GetWhere(u =>
-                u.AuthInfo.Username == authInfo.Username);
-                var user = users.FirstOrDefault(u => u.AuthInfo != null);
-                if (user == null) { return -1; }
-                return user.Id;
+                loginResponse.AuthResponse = AuthEnum.BadPassword;
             }
+            else
+            {
+                loginResponse.AuthResponse = AuthEnum.Success;
+                loginResponse.Token = await _tokenService.CreateToken(userDb.Id);
+            }
+
+            return loginResponse;
+
         }
 
         private bool IsPasswordValid(string password)
@@ -75,9 +62,7 @@ namespace Server.Services
             }
             else
             {
-                UserDB user = new UserDB { AuthInfo = authInfo };
-                using (_userRepository)
-                {
+                UserDB user = new UserDB { Username = authInfo.Username, Password = authInfo.Password };
                     try
                     {
                         await _userRepository.Create(user);
@@ -87,9 +72,13 @@ namespace Server.Services
                     {
                         response = AuthEnum.BadUsername;
                     }
-                }
             }
             return response;
+        }
+
+        public void Dispose()
+        {
+            _userRepository.Dispose();
         }
     }
 }

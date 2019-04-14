@@ -14,5 +14,7 @@ namespace Server.DAL.Interfaces
         // returns file id.
         Task<int> UploadFile(FileDB file);
         Task<bool> DeleteFile(int fileId);
+
+        Task<FileDB> UpdateFile(FileDB file);
     }
 }

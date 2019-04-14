@@ -8,7 +8,7 @@ namespace Server.Interfaces
 {
     public interface IFileService
     {
-        Task<IEnumerable<FileCommon>> GetFiles(bool withPublic); 
+        Task<IEnumerable<FileCommon>> GetFiles(int userId, bool withPublic); 
         Task<FileCommon> DownloadFile(FileCommon file);
         Task<int> UploadFile(FileCommon file);
         Task<bool> DeleteFile(FileCommon file);

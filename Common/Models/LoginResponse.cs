@@ -7,7 +7,7 @@ namespace Common.Models
 {
     public class LoginResponse
     {
-        public AuthEnum AuthInfo { get; set; }
+        public AuthEnum AuthResponse { get; set; }
         public string Token { get; set; }
     }
 }

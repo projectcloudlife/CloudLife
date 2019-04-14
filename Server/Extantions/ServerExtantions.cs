@@ -1,5 +1,6 @@
 ﻿using Common.Models;
 using Microsoft.AspNetCore.Mvc;
+using Server.DAL.Interfaces;
 using Server.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,19 @@ namespace Server.Extantions
                 SizeInBytes = file.SizeInBytes,
                 UserId = file.UserId
             };
+        }
+
+        public static async Task<int> GetId(this IUserRepository userRepository,AuthInfo authInfo)
+        {
+            var users = await userRepository.GetWhere(userRep => userRep.Username == authInfo.Username);
+            var user = users.FirstOrDefault();
+
+            if (user == null)
+            {
+                return -1;
+            }
+
+            return user.Id;
         }
 
     }

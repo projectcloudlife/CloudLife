@@ -1,4 +1,5 @@
-﻿using Server.DAL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Server.DAL.Interfaces;
 using Server.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,19 @@ namespace Server.DAL.Repositories
 
         public async Task<UserDB> Create(UserDB user)
         {
-
-            var usernameTake = _context.Users.Any(userDb => userDb.AuthInfo.Username == user.AuthInfo.Username);
+            var usernameTake = _context.Users.Any(userDb => userDb.Username == user.Username);
 
             if (usernameTake)
             {
                 throw new Exception("Username already exists.");
             }
+            lock (_context)
+            {
+                var newUserEntry = _context.Users.Add(user);
+                _context.SaveChanges();
 
-            var newUserEntry = _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return newUserEntry.Entity;
+                return newUserEntry.Entity;
+            }
         }
 
         public Task<UserDB> Get(int Id)
@@ -62,7 +64,7 @@ namespace Server.DAL.Repositories
         {
             return Task.Run(() =>
             {
-                var result = (IEnumerable<UserDB>)_context.Users.Where(expr);
+                var result = (IEnumerable<UserDB>)_context.Users.AsNoTracking().Where(expr);
                 return result;
             });
         }

@@ -1,4 +1,5 @@
-﻿using Server.DAL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Server.DAL.Interfaces;
 using Server.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -21,19 +22,6 @@ namespace Server.DAL.Repositories
         public async Task<bool> DeleteFile(int fileId)
         {
             var file = _context.Files.FirstOrDefault(fileDb => fileDb.Id == fileId);
-
-            if (file == null)
-            {
-                return false;
-            }
-
-            if (file.InRecycleBin == false)
-            {
-                file.InRecycleBin = true;
-                _context.Files.Update(file);
-                await _context.SaveChangesAsync();
-                return true;
-            }
 
             _context.Files.Remove(file);
             await _context.SaveChangesAsync();
@@ -66,7 +54,7 @@ namespace Server.DAL.Repositories
         public async Task<int> UploadFile(FileDB file)
         {
             var newFileEntry = _context.Files.Add(file);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return newFileEntry.Entity.Id;
         }
 
@@ -84,6 +72,18 @@ namespace Server.DAL.Repositories
                     _context.Dispose();
                 }
             }
+        }
+
+        async public Task<FileDB> UpdateFile(FileDB file)
+        {
+            var fileToUpdate = _context.Files.Find(file.Id);
+            var entry = _context.Entry(fileToUpdate);
+            entry.CurrentValues.SetValues(file);
+            entry.State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return fileToUpdate;
         }
     }
 }

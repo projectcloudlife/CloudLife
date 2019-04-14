@@ -16,45 +16,57 @@ namespace Server.Services
 
         public FileService(IFileRepository repo)
         {
-            using (_fileRepository)
-            {
-                _fileRepository = repo;
-            }
+            _fileRepository = repo;
         }
 
         public async Task<bool> DeleteFile(FileCommon file)
         {
-            using (_fileRepository)
+            if (await CanAccessFile(file))
+                return false;
+
+            if (file.InRecycleBin == false)
             {
-                return await _fileRepository.DeleteFile(file.Id);
+                file.InRecycleBin = true;
+                await _fileRepository.UpdateFile(file.ToDB());
+                return true;
             }
+
+            return await _fileRepository.DeleteFile(file.Id);
         }
         /**
          * if file not exist throw exception from repository
          */
         public async Task<FileCommon> DownloadFile(FileCommon file)
         {
-            using (_fileRepository)
-            {
-                return await _fileRepository.DownloadFile(file.Id);
-            }
+            if (await CanAccessFile(file) == false)
+                return null;
+
+            return await _fileRepository.DownloadFile(file.Id);
         }
 
-        public async Task<IEnumerable<FileCommon>> GetFiles(bool withPublic)
+        public async Task<IEnumerable<FileCommon>> GetFiles(int userId, bool withPublic)
         {
-            using (_fileRepository)
-            {
-                return await _fileRepository.GetWhere(f => f.IsPublic == withPublic);
-            }
+            return await _fileRepository.GetWhere(file => file.UserId == userId && file.IsPublic == withPublic );
         }
 
         public async Task<int> UploadFile(FileCommon file)
         {
             var fileDb = file.ToDB();
-            using (_fileRepository)
-            {
-                return await _fileRepository.UploadFile(fileDb);
-            }
+            return await _fileRepository.UploadFile(fileDb);
         }
+
+        async Task<bool> CanAccessFile(FileCommon file)
+        {
+            var fileDb = (await _fileRepository.GetWhere(fileGw => fileGw.Id == file.Id)).FirstOrDefault();
+
+            if (fileDb == null)
+                return false;
+
+            if (file.UserId != file.UserId)
+                return false;
+
+            return true;
+        }
+
     }
 }

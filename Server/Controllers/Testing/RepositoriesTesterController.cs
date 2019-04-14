@@ -34,20 +34,18 @@ namespace Server.Controllers.Testing
         public async Task<ActionResult<bool>> UserRepoTest()
         {
             Random rnd = new Random();
-            var username = "username" + rnd.Next(100000).ToString();
+            var username = "username344" + rnd.Next(100000).ToString();
 
             //Create user
             var user = await _userRepository.Create(new UserDB()
             {
-                AuthInfo = new AuthInfo()
-                {
                     Username = username,
-                    Password = ""
-                }
+                    Password = "asdsadasasdas"
+                
             });
 
             var getUser = await _userRepository.Get(user.Id);
-            if(getUser.AuthInfo.Username != username)
+            if(getUser.Username != username)
             {
                 return false;
             }
@@ -60,15 +58,12 @@ namespace Server.Controllers.Testing
         public async Task<ActionResult<bool>> FileRepoTest()
         {
             Random rnd = new Random();
-            var username = "username" + rnd.Next(100000).ToString();
+            var username = "username123"; 
 
             var user = await _userRepository.Create(new UserDB()
             {
-                AuthInfo = new AuthInfo()
-                {
                     Username = username,
-                    Password = ""
-                }
+                    Password = "1dqwdsad"
             });
 
             var fileName = "file1.exe";

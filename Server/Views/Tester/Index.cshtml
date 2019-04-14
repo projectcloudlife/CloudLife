@@ -69,7 +69,7 @@
 
         function addResult({ endpoint, result }) {
             let liResult = document.createElement("li");
-            liResult.innerHTML = `${endpoint} : <span class="${resultStyle(result)}">${resultText(result)}</span>`;
+            liResult.innerHTML = `<a href="${endpoint}">${endpoint} : <span class="${resultStyle(result)}">${resultText(result)}</span><a/>`;
             list.appendChild(liResult);
         }
 
