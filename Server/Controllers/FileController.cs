@@ -44,8 +44,6 @@ namespace Server.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> DeleteFile([FromBody] FileCommon file)
         {
-
-
             file.UserId = this.UserId();
             var success = await _fileService.DeleteFile(file);
             return new JsonResult(success);
