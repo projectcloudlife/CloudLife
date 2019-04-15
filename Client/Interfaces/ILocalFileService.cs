@@ -1,16 +1,15 @@
-﻿using Common.Models;
-using System;
+﻿using Client.Models;
+using Common.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Interfaces
 {
     public interface ILocalFileService
     {
-        Task<IEnumerable<FileCommon>> SelectFiles();
-        Task<bool> SaveFile(FileCommon fileCommon);
-        Task<FileCommon> GetFileData(FileCommon fileCommon);
+        Task<IEnumerable<FileClient>> SelectFiles();
+        Task<bool> SaveFile(FileClient fileCommon);
+        Task<string> SelectFolder();
+        Task<FileCommon> GetFileWithData(FileClient file);
     }
 }

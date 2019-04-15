@@ -29,11 +29,12 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FileCommon>>> GetFile()
         {
-            var files = await _fileService.GetFiles( this.UserId(),false);
+            var files = await _fileService.GetFiles(this.UserId(), false);
             return new JsonResult(files);
         }
 
-        [HttpPost]
+        [HttpPost()]
+        [Route("upload")]
         public async Task<ActionResult<int>> UploadFile([FromBody] FileCommon file)
         {
             file.UserId = this.UserId();
@@ -41,17 +42,20 @@ namespace Server.Controllers
             return new JsonResult(fileId);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<bool>> DeleteFile([FromBody] FileCommon file)
+        [HttpDelete()]
+        public async Task<ActionResult<bool>> DeleteFile([FromQuery] int fileId)
         {
-
-
-            file.UserId = this.UserId();
+            var file = new FileCommon
+            {
+                Id = fileId,
+                UserId = this.UserId(),
+            };
             var success = await _fileService.DeleteFile(file);
             return new JsonResult(success);
-        } 
+        }
 
         [HttpPost]
+        [Route("download")]
         public async Task<ActionResult<FileCommon>> Download([FromBody] FileCommon file)
         {
             file.UserId = this.UserId();
