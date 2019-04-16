@@ -1,4 +1,4 @@
-﻿namespace Client.Models
+﻿namespace ClientLogic.Models
 {
     public class Configuration
     {

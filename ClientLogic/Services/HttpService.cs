@@ -1,4 +1,4 @@
-﻿using Client.Interfaces;
+﻿using ClientLogic.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
