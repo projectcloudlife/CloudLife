@@ -1,7 +1,11 @@
 ﻿using Client.Command.Attributes;
+using Client.Interfaces;
+using Client.Models;
+using Common.Models;
 using GalaSoft.MvvmLight.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +14,33 @@ namespace Client.ViewModels
 {
     public class FileViewerViewModel:ViewModel
     {
-        public FileViewerViewModel(INavigationService navService)
+        public FileViewerViewModel(INavigationService navService, ICloudFileService cloudFileService)
         {
             _navigationService = navService;
+            _cloudFileService = cloudFileService;
+            InitFiles();
         }
 
         INavigationService _navigationService;
+        ICloudFileService _cloudFileService;
+        public ObservableCollection<FileCommon> FilesList { get; set; }
 
+
+        public async void InitFiles()
+        {
+            //FilesList = new List<FileCommon>(await _cloudFileService.GetFiles(true));
+            FilesList = new ObservableCollection<FileCommon>
+            {
+                new FileCommon{Name="fff.jpg",
+                SizeInBytes=2343,
+                IsPublic=true
+                },
+                new FileCommon{Name="dddddd.exe",
+                SizeInBytes=2343,
+                IsPublic=true
+                }
+            };
+        }
         [CommandExecute]
         void GoBack()
         {
@@ -30,7 +54,7 @@ namespace Client.ViewModels
         }
 
         [CommandExecute]
-        void TestClick()
+        void NavCommand()
         {
 
         }

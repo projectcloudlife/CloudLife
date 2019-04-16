@@ -1,6 +1,7 @@
 ﻿
 using Client.Command.Attributes;
 using Client.Interfaces;
+using Common.Enums;
 using Common.Models;
 using GalaSoft.MvvmLight.Views;
 using System;
@@ -13,9 +14,10 @@ namespace Client.ViewModels
 {
     public class LoginViewModel : ViewModel
     {
-        public LoginViewModel(INavigationService navService)
+        public LoginViewModel(INavigationService navService, IAuthService authService)
         {
             _navigationService = navService;
+            _authService = authService;
         }
 
         IAuthService _authService;
@@ -35,16 +37,20 @@ namespace Client.ViewModels
         }
 
         [CommandExecute]
-        void Login(object param)
+        async void Login()
         {
-            new AuthInfo { Username = UserName, Password = Password };
-            _navigationService.NavigateTo("FileViewerPage");
+            //var info = new AuthInfo { Username = UserName, Password = Password };
+            //var response = await _authService.Login(info);
+            //if (response.AuthResponse == AuthEnum.Success)
+                _navigationService.NavigateTo("FileViewerPage");
+            
         }
 
         [CommandExecute]
-        void Register(object param)
+        async void Register()
         {
-            new AuthInfo { Username = UserName, Password = Password };
+            var info = new AuthInfo { Username = UserName, Password = Password };
+            var response = await _authService.Register(info);
         }
 
         [CommandCanExecute]

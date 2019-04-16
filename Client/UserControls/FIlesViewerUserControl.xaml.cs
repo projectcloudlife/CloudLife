@@ -31,7 +31,9 @@ namespace Client.UserControls
         public List<FileCommon> FilesCollection
         {
             get { return (List<FileCommon>)GetValue(MyPropertyProperty); }
-            set { SetValue(MyPropertyProperty, value); }
+            set {
+                SetValue(MyPropertyProperty, value); 
+}
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...

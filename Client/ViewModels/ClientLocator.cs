@@ -1,4 +1,6 @@
-﻿using Client.Views;
+﻿using Client.Interfaces;
+using Client.Services;
+using Client.Views;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
@@ -22,6 +24,11 @@ namespace Client.ViewModels
             nav.Configure("UploadPage", typeof(UploadPage));
             nav.Configure("FileViewerPage", typeof(FileViewerPage));
             SimpleIoc.Default.Register<INavigationService>(() => nav);
+            SimpleIoc.Default.Register<IAuthService, AuthService>();
+            SimpleIoc.Default.Register<IHttpService, HttpService>();
+            SimpleIoc.Default.Register<IConfigurationService, ConfigurationService>();
+            SimpleIoc.Default.Register<ICloudFileService, CloudFileService>();
+            SimpleIoc.Default.Register<ILocalFileService, LocalFileService>();
 
 
             SimpleIoc.Default.Register<LoginViewModel>();

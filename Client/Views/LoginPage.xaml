@@ -19,9 +19,9 @@
         </Grid.ColumnDefinitions>
         <StackPanel VerticalAlignment="Center"  Grid.Column="1">
             <TextBlock Text="User Name:"/>
-                <TextBox Text="{Binding UserName}"/>
+                <TextBox Text="{Binding UserName, Mode=TwoWay}"/>
                 <TextBlock Text="Password:"/>
-                <TextBox Text="{Binding Password}"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Login" Command="{Binding [Login]}"/>
                 <Button Content="Register" Command="{Binding [Register]}"/>
