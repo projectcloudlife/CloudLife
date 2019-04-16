@@ -2,13 +2,17 @@
 using Client.Interfaces;
 using Client.Models;
 using Common.Models;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace Client.ViewModels
 {
@@ -23,10 +27,13 @@ namespace Client.ViewModels
 
         INavigationService _navigationService;
         ICloudFileService _cloudFileService;
+
+
         public ObservableCollection<FileCommon> FilesList { get; set; }
+        public ObservableCollection<FileCommon> SelectedList { get; set; }
 
 
-        public async void InitFiles()
+            public async void InitFiles()
         {
             //FilesList = new List<FileCommon>(await _cloudFileService.GetFiles(true));
             FilesList = new ObservableCollection<FileCommon>
@@ -42,20 +49,24 @@ namespace Client.ViewModels
             };
         }
         [CommandExecute]
-        void GoBack()
+        public void LogOutCommand()
         {
+            //logout
             _navigationService.GoBack();
         }
 
-        [CommandExecute]
-        void UploadNavigate()
+        
+        public void UploadCommand()
         {
             _navigationService.NavigateTo("UploadPage");
         }
 
         [CommandExecute]
-        void NavCommand()
+        void NavCommand(NavigationViewItemInvokedEventArgs args)
         {
+            MethodInfo mi = this.GetType().GetMethod($"{args.InvokedItemContainer.Name}Command");
+            var context = (ObservableCollection<FileCommon>)args.InvokedItemContainer.DataContext;
+            mi.Invoke(this, null);
 
         }
     }

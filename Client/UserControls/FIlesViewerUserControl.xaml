@@ -7,11 +7,12 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     x:Name="usercontrol"
     mc:Ignorable="d" Height="812" Width="1456">
-
-    <controls:DataGrid x:Name="dataGrid" DataContext="{Binding ElementName=usercontrol}"
+    <Grid DataContext="{Binding ElementName=usercontrol}">
+    <controls:DataGrid x:Name="dataGrid"
                        Height="600" Margin="12"
-    AutoGenerateColumns="True"
-    >
+    AutoGenerateColumns="True">
 
     </controls:DataGrid>
+        
+    </Grid>
 </UserControl>
