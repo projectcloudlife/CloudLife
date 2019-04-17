@@ -15,7 +15,7 @@ namespace UnitTestingClient.MockedClasses
             {
                 return new Configuration()
                 {
-                    Host = "https://localhost:44390"
+                    Host = "http://localhost:63549"
                 };
             }); 
         }

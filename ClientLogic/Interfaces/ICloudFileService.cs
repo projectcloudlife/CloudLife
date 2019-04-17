@@ -10,5 +10,6 @@ namespace ClientLogic.Interfaces
         Task<int> UploadFile(FileCommon fileCommon);
         Task<FileCommon> DownloadFile(FileCommon file);
         Task<bool> DeleteFile(FileCommon file);
+        Task<FileCommon> UpdateFileMetadata(FileCommon file);
     }
 }

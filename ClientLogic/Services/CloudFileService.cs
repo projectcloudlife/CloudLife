@@ -34,5 +34,10 @@ namespace ClientLogic.Services
         {
             return _httpService.Post<int, FileCommon>("api/file/upload", file);
         }
+
+        public Task<FileCommon> UpdateFileMetadata(FileCommon file)
+        {
+            return _httpService.Put<FileCommon, FileCommon>("api/file", file);
+        }
     }
 }

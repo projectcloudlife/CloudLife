@@ -63,5 +63,13 @@ namespace Server.Controllers
             return new JsonResult(downloadFile);
         }
 
+        [HttpPut]
+        public async Task<ActionResult<FileCommon>> UpadeFileMetadata([FromBody] FileCommon file)
+        {
+            file.UserId = this.UserId();
+            var updatedFile = await _fileService.UpadateFileMetadata(file);
+            return new JsonResult(updatedFile);
+        }
+
     }
 }
