@@ -12,11 +12,12 @@ namespace Client.Services
     {
         public Task<Configuration> GetAppConfiguration()
         {
+            var fileDir = "configuration.json";
             return Task.Run(() =>
             {
                 return new Configuration()
                 {
-                    Host = "https://localhost:44390/"
+                    Host = "http://localhost:63549"
                 };
             });
         }

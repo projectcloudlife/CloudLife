@@ -27,7 +27,6 @@ namespace UnitTestingClient.Tests
         {
             var result = new TestResult("AuthService Register", true);
 
-
             var response = await authService.Register(authInfo);
 
             if(response != AuthEnum.Success)
