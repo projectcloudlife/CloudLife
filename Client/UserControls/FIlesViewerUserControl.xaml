@@ -9,20 +9,14 @@
     x:Name="usercontrol"
     mc:Ignorable="d" Height="812" Width="1456">
     <Grid DataContext="{Binding ElementName=usercontrol}">
-        <controls:DataGrid x:Name="FilesDataGrid" GridLinesVisibility="All" AutoGenerateColumns="False" SelectionMode="Extended"                           
+        <controls:DataGrid x:Name="FilesDataGrid" IsReadOnly="True" GridLinesVisibility="All" AutoGenerateColumns="False" SelectionMode="Extended"                           
                            ItemsSource="{Binding FilesCollection}" SelectionChanged="FilesDataGrid_SelectionChanged" AlternatingRowBackground="LightGray">
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="Name"
-                                             Binding="{Binding Name}"/>
-                <controls:DataGridTextColumn Header="Size"
-                                             Binding="{Binding SizeInBytes}"/>
-                <controls:DataGridCheckBoxColumn Header = "Public"
-                                             Binding="{Binding IsPublic}"
-                                                 />
-                    <controls:DataGridTextColumn Header="Last Modified"
-                                             Binding="{Binding UploadDate}"/>
-                <controls:DataGridTextColumn Header="Owner"
-                                             Binding="{Binding UserId}"/>
+                <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <controls:DataGridTextColumn Header="Size" Binding="{Binding SizeInBytes}"/>
+               <controls:DataGridTextColumn Header="Last Modified" Binding="{Binding UploadDate}"/>
+                <controls:DataGridCheckBoxColumn Header = "Public" Binding="{Binding IsPublic}"/>
+                <controls:DataGridTextColumn Header="Owner" Binding="{Binding UserId}"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
     </Grid>

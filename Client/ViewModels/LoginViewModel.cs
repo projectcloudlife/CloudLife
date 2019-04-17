@@ -39,9 +39,9 @@ namespace Client.ViewModels
         [CommandExecute]
         async void Login()
         {
-            var info = new AuthInfo { Username = UserName, Password = Password };
-            var response = await _authService.Login(info);
-            if (response.AuthResponse == AuthEnum.Success)
+            //var info = new AuthInfo { Username = UserName, Password = Password };
+            //var response = await _authService.Login(info);
+            //if (response.AuthResponse == AuthEnum.Success)
                 _navigationService.NavigateTo("FileViewerPage");
             
         }

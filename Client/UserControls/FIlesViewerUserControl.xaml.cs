@@ -20,10 +20,12 @@ namespace Client.UserControls
 
 
 
-        public List<FileCommon> SelectedFiles
+        public ObservableCollection<FileCommon> SelectedFiles
         {
-            get { return (List<FileCommon>)GetValue(SelectedFilesProperty); }
-            set { SetValue(SelectedFilesProperty, value); }
+            get { return (ObservableCollection<FileCommon>)GetValue(SelectedFilesProperty); }
+            set { SetValue(SelectedFilesProperty, value);
+                
+            }
         }
 
         // Using a DependencyProperty as the backing store for SelectedFiles.  This enables animation, styling, binding, etc...
@@ -47,7 +49,7 @@ namespace Client.UserControls
 
         private void FilesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedFiles = new List<FileCommon>();
+            SelectedFiles = new ObservableCollection<FileCommon>();
             foreach (object item in FilesDataGrid.SelectedItems)
             {
                 SelectedFiles.Add(item as FileCommon);
