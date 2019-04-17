@@ -7,7 +7,7 @@ namespace ClientLogic.Interfaces
     public interface ICloudFileService
     {
         Task<IEnumerable<FileCommon>> GetFiles(bool withPublic);
-        Task<bool> UploadFile(FileCommon fileCommon);
+        Task<int> UploadFile(FileCommon fileCommon);
         Task<FileCommon> DownloadFile(FileCommon file);
         Task<bool> DeleteFile(FileCommon file);
     }

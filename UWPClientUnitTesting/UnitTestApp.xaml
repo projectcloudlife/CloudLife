@@ -1,0 +1,10 @@
+﻿<Application
+    x:Class="UWPClientUnitTesting.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPClientUnitTesting"
+    xmlns:vm="using:Client.ViewModels">
+    <Application.Resources>
+        <vm:ClientLocator x:Key="locator"/>
+    </Application.Resources>
+</Application>

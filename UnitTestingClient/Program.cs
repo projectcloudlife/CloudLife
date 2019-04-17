@@ -1,5 +1,4 @@
-﻿using System;
-using UnitTestingClient.Models;
+﻿using UnitTestingClient.Models;
 
 namespace UnitTestingClient
 {
