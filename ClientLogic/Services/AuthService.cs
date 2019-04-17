@@ -3,7 +3,7 @@ using Common.Enums;
 using Common.Models;
 using System.Threading.Tasks;
 
-namespace Client.Services
+namespace ClientLogic.Services
 {
     public class AuthService : IAuthService
     {

@@ -1,12 +1,9 @@
 ﻿using ClientLogic.Interfaces;
 using Common.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Services
+namespace ClientLogic.Services
 {
     public class CloudFileService : ICloudFileService
     {
@@ -33,9 +30,9 @@ namespace Client.Services
             return _httpService.Get<IEnumerable<FileCommon>>("api/file");
         }
 
-        public Task<bool> UploadFile(FileCommon file)
+        public Task<int> UploadFile(FileCommon file)
         {
-            return _httpService.Post<bool, FileCommon>("api/file/upload", file);
+            return _httpService.Post<int, FileCommon>("api/file/upload", file);
         }
     }
 }

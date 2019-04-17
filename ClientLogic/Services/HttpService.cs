@@ -2,9 +2,10 @@
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Services
+namespace ClientLogic.Services
 {
     public class HttpService : IHttpService
     {
@@ -53,14 +54,14 @@ namespace Client.Services
 
         HttpContent MakeContent<T>(T obj)
         {
-            return new StringContent(JsonConvert.SerializeObject(obj));
+            return new StringContent(JsonConvert.SerializeObject(obj),Encoding.UTF8, "application/json");
         }
 
         async Task<T> Request<T>(Func<HttpClient, Task<HttpResponseMessage>> makeRequest)
         {
             HttpClient client = new HttpClient();
-            
-            if(string.IsNullOrEmpty(JWTBearerToken) == false)
+
+            if (string.IsNullOrEmpty(JWTBearerToken) == false)
             {
                 client.DefaultRequestHeaders.Add("Authorization", $"bearer {JWTBearerToken}");
             }

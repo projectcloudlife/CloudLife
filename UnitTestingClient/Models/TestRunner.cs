@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Linq;
 
 namespace UnitTestingClient.Models
@@ -31,8 +28,14 @@ namespace UnitTestingClient.Models
 
         public static void PrintTestResult(TestResult testResult)
         {
-            var passedString = testResult.Passed ? "Passed" : "failed";
-            Console.WriteLine($"{testResult.Name}: {passedString}");
+            var passedString = testResult.Passed ? "Passed" : "Failed";
+            var Color = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red; 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"{testResult.Name}: ");
+            Console.ForegroundColor = Color;
+            Console.WriteLine($"{passedString}");
+            Console.ForegroundColor = ConsoleColor.White;
+
         }
 
     }

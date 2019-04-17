@@ -21,7 +21,7 @@ namespace Server.Services
 
         public async Task<bool> DeleteFile(FileCommon file)
         {
-            if (await CanAccessFile(file))
+            if (await CanAccessFile(file) == false)
                 return false;
 
             if (file.InRecycleBin == false)
