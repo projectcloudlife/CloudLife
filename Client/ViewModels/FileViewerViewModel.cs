@@ -1,6 +1,5 @@
 ﻿using Client.Command.Attributes;
-using Client.Interfaces;
-using Client.Models;
+using ClientLogic.Interfaces;
 using Common.Models;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
@@ -47,6 +46,7 @@ namespace Client.ViewModels
                 IsPublic=true
                 }
             };
+            Notify(nameof(FilesList));
         }
         [CommandExecute]
         public void LogOutCommand()
@@ -55,7 +55,6 @@ namespace Client.ViewModels
             _navigationService.GoBack();
         }
 
-        
         public void UploadCommand()
         {
             _navigationService.NavigateTo("UploadPage");
