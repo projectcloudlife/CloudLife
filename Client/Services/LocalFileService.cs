@@ -46,7 +46,12 @@ namespace Client.Services
 
         async public Task<IEnumerable<FileClient>> SelectFiles()
         {
-            var storageFiles = await new FileOpenPicker().PickMultipleFilesAsync();
+            var filePicker = new FileOpenPicker();
+            filePicker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            filePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            filePicker.FileTypeFilter.Add("*");
+
+            var storageFiles = await filePicker.PickMultipleFilesAsync();
             
             var files = new ConcurrentBag<FileClient>();
 
@@ -76,7 +81,10 @@ namespace Client.Services
 
         async public Task<string> SelectFolder()
         {
-            var folder = await new FolderPicker().PickSingleFolderAsync();
+            var folderPicker = new FolderPicker();
+            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            folderPicker.FileTypeFilter.Add("*");
+            var folder = await folderPicker.PickSingleFolderAsync();
             return folder.Path;
         }
     }
