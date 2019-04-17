@@ -22,6 +22,7 @@ namespace Client.ViewModels
             _navigationService = navService;
             _cloudFileService = cloudFileService;
             InitFiles();
+            
         }
 
         INavigationService _navigationService;
@@ -39,11 +40,25 @@ namespace Client.ViewModels
             {
                 new FileCommon{Name="fff.jpg",
                 SizeInBytes=2343,
-                IsPublic=true
+                IsPublic=true,
+                UploadDate = DateTime.UtcNow
+               
                 },
                 new FileCommon{Name="dddddd.exe",
                 SizeInBytes=2343,
-                IsPublic=true
+                IsPublic=true,
+                UploadDate = DateTime.UtcNow
+
+        },     
+                new FileCommon{Name="fff.jpg",
+                SizeInBytes=2343,
+                IsPublic=false,
+                UploadDate = DateTime.UtcNow
+                },
+                new FileCommon{Name="dddddd.exe",
+                SizeInBytes=2343,
+                IsPublic=false,
+                UploadDate = DateTime.UtcNow
                 }
             };
             Notify(nameof(FilesList));
@@ -64,7 +79,10 @@ namespace Client.ViewModels
         void NavCommand(NavigationViewItemInvokedEventArgs args)
         {
             MethodInfo mi = this.GetType().GetMethod($"{args.InvokedItemContainer.Name}Command");
+            if (args.InvokedItemContainer.DataContext != this)
+            {
             var context = (ObservableCollection<FileCommon>)args.InvokedItemContainer.DataContext;
+            }
             mi.Invoke(this, null);
 
         }

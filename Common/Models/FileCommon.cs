@@ -13,6 +13,7 @@ namespace Common.Models
          **/
         public string Name { get; set; }
         public bool InRecycleBin { get; set; }
+        public DateTime UploadDate { get; set; }
         public int SizeInBytes { get; set; }
         public bool IsPublic { get; set; }
         /**

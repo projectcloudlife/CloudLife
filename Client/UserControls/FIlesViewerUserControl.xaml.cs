@@ -1,57 +1,57 @@
 ﻿using Common.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Client.UserControls
 {
-    public sealed partial class FIlesViewerUserControl : UserControl
+    public sealed partial class FilesViewerUserControl : UserControl
     {
-        public FIlesViewerUserControl()
+        public FilesViewerUserControl()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
+
         }
 
 
 
-        public int TestInt
+        public List<FileCommon> SelectedFiles
         {
-            get { return (int)GetValue(TestIntProperty); }
-            set { SetValue(TestIntProperty, value); }
+            get { return (List<FileCommon>)GetValue(SelectedFilesProperty); }
+            set { SetValue(SelectedFilesProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TestInt.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TestIntProperty =
-            DependencyProperty.Register("TestInt", typeof(int), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
+        // Using a DependencyProperty as the backing store for SelectedFiles.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedFilesProperty =
+            DependencyProperty.Register("SelectedFiles", typeof(List<FileCommon>), typeof(FilesViewerUserControl), new PropertyMetadata(null));
 
 
 
-        public ObservableCollection<FileCommon> FilesCollection
+        public List<FileCommon> FilesCollection
         {
-            get { return (ObservableCollection<FileCommon>)GetValue(MyPropertyProperty); }
-            set {
-                SetValue(MyPropertyProperty, value); 
-}
+            get { return (List<FileCommon>)GetValue(FilesCollectionProperty); }
+            set
+            {
+                SetValue(FilesCollectionProperty, value);
+            }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register(nameof(FilesCollection), typeof(ObservableCollection<FileCommon>), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
+        public static readonly DependencyProperty FilesCollectionProperty =
+            DependencyProperty.Register(nameof(FilesCollection), typeof(List<FileCommon>), typeof(FilesViewerUserControl), new PropertyMetadata(null));
 
-
+        private void FilesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedFiles = new List<FileCommon>();
+            foreach (object item in FilesDataGrid.SelectedItems)
+            {
+                SelectedFiles.Add(item as FileCommon);
+            }
+        }
     }
 }

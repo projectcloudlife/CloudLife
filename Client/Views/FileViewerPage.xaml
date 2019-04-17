@@ -11,7 +11,7 @@
 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource locator},Path=FileViewerVM}">
+    DataContext="{Binding Source={StaticResource locator}, Path=FileViewerVM}">
 
     <Grid>
         <NavigationView IsBackButtonVisible="Collapsed" x:Name="NavView">
@@ -33,7 +33,7 @@
         </NavigationView.MenuItems>
 
             <NavigationView.Content>
-                <Grid></Grid>
+                <uc:FilesViewerUserControl FilesCollection="{Binding FilesList}" SelectedFiles="{Binding SelectedList}"/>
             </NavigationView.Content>
     </NavigationView>
 
