@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Client.Interfaces
+namespace ClientLogic.Interfaces
 {
     public interface ICloudFileService
     {

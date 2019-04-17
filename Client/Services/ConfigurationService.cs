@@ -1,5 +1,5 @@
-﻿using Client.Interfaces;
-using Client.Models;
+﻿using ClientLogic.Interfaces;
+using ClientLogic.Models;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -11,13 +11,11 @@ namespace Client.Services
     {
         async public Task<Configuration> GetAppConfiguration()
         {
+            var uri = new Uri("ms-appx:///Assets/configuration.json");
+            var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            var fileString = await FileIO.ReadTextAsync(file);
 
-            //var uri = new Uri("ms-appx:///Assets/configuration.json");
-            //var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            //var fileString = await FileIO.ReadTextAsync(file);
-            var fileString = @"{""Host"":""https://localhost:44390""}";
-
-            return JsonConvert.DeserializeObject<Configuration>(fileString);
+            return JsonConvert.DeserializeObject<Configuration>("");
         }
     }
 }

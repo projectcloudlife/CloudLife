@@ -1,5 +1,5 @@
-﻿using Client.Interfaces;
-using Client.Models;
+﻿using ClientLogic.Interfaces;
+using ClientLogic.Models;
 using Common.Models;
 using System;
 using System.Collections.Concurrent;

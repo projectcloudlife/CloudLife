@@ -1,4 +1,4 @@
-﻿using Client.Interfaces;
+﻿using ClientLogic.Interfaces;
 using Common.Enums;
 using Common.Models;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿using Client.Interfaces;
+﻿using ClientLogic.Interfaces;
 using Common.Models;
 using System;
 using System.Collections.Generic;

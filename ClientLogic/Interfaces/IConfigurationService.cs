@@ -1,7 +1,7 @@
-﻿using Client.Models;
+﻿using ClientLogic.Models;
 using System.Threading.Tasks;
 
-namespace Client.Interfaces
+namespace ClientLogic.Interfaces
 {
     public interface IConfigurationService
     {
