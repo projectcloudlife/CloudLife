@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Client.Services
 {
@@ -14,12 +15,10 @@ namespace Client.Services
     {
         async public Task<Configuration> GetAppConfiguration()
         {
-            //var configFileUrl = "configuration.json";
-            //var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/{configFileUrl}"));
-            //var fileString = await FileIO.ReadTextAsync(file);
-            //var hostConfig = JsonConvert.DeserializeObject<Configuration>(fileString);
-            //return hostConfig;
-            return new Configuration { Host = "http://localhost:63549" };
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/configuration.json"));
+            var fileString = await FileIO.ReadTextAsync(file);
+            var hostConfig = JsonConvert.DeserializeObject<Configuration>(fileString);
+            return hostConfig;
         }
     }
 }

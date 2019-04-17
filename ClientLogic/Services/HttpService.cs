@@ -12,7 +12,15 @@ namespace ClientLogic.Services
 
         public HttpService(IConfigurationService configurationService)
         {
-            var config = configurationService.GetAppConfiguration().Result;
+            _configurationService = configurationService;
+            Init();
+        }
+
+        IConfigurationService _configurationService;
+
+        async void Init()
+        {
+            var config = await _configurationService.GetAppConfiguration();
             Host = config.Host;
         }
 
