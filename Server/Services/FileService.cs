@@ -49,6 +49,16 @@ namespace Server.Services
             return await _fileRepository.GetWhere(file => file.UserId == userId && file.IsPublic == withPublic );
         }
 
+        async public Task<FileCommon> UpadateFileMetadata(FileCommon file)
+        {
+            if(await CanAccessFile(file) != false)
+            {
+                return null;
+            }
+
+            return await _fileRepository.UpdateFile(file.ToDB());
+        }
+
         public async Task<int> UploadFile(FileCommon file)
         {
             var fileDb = file.ToDB();

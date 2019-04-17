@@ -12,5 +12,6 @@ namespace Server.Interfaces
         Task<FileCommon> DownloadFile(FileCommon file);
         Task<int> UploadFile(FileCommon file);
         Task<bool> DeleteFile(FileCommon file);
+        Task<bool> UpadateFileMetadata(FileCommon file);
     }
 }

@@ -147,7 +147,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Assets\configuration.json" />
+    <Content Include="Assets\configuration.json" />
     <None Include="Client_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
