@@ -26,11 +26,23 @@ namespace Client.UserControls
             this.InitializeComponent();            
         }
 
-        
 
-        public List<FileCommon> FilesCollection
+
+        public int TestInt
         {
-            get { return (List<FileCommon>)GetValue(MyPropertyProperty); }
+            get { return (int)GetValue(TestIntProperty); }
+            set { SetValue(TestIntProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TestInt.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TestIntProperty =
+            DependencyProperty.Register("TestInt", typeof(int), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
+
+
+
+        public ObservableCollection<FileCommon> FilesCollection
+        {
+            get { return (ObservableCollection<FileCommon>)GetValue(MyPropertyProperty); }
             set {
                 SetValue(MyPropertyProperty, value); 
 }
@@ -38,7 +50,7 @@ namespace Client.UserControls
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register(nameof(FilesCollection), typeof(List<FileCommon>), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(FilesCollection), typeof(ObservableCollection<FileCommon>), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
 
 
     }

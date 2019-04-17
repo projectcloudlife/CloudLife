@@ -33,7 +33,7 @@ namespace Client.ViewModels
         public ObservableCollection<FileCommon> SelectedList { get; set; }
 
 
-            public async void InitFiles()
+        public async void InitFiles()
         {
             //FilesList = new List<FileCommon>(await _cloudFileService.GetFiles(true));
             FilesList = new ObservableCollection<FileCommon>

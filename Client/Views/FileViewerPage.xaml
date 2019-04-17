@@ -13,7 +13,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Source={StaticResource locator},Path=FileViewerVM}">
 
-    <NavigationView IsBackButtonVisible="Collapsed" x:Name="NavView">
+    <Grid>
+        <NavigationView IsBackButtonVisible="Collapsed" x:Name="NavView">
         <i:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="ItemInvoked">
                 <core:EventTriggerBehavior.Actions>
@@ -29,9 +30,14 @@
             <NavigationViewItem DataContext="{Binding SelectedList}" Content="Share" Icon="Share"/>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Name="LogOut" Content="Log Out" Icon="Back"/>
-            
         </NavigationView.MenuItems>
+
+            <NavigationView.Content>
+                <uc:FIlesViewerUserControl TestInt="{Binding INT}" FilesCollection="{Binding FilesList}"/>
+            </NavigationView.Content>
     </NavigationView>
 
+        
 
+    </Grid>
 </Page>
