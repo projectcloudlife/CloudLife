@@ -26,14 +26,14 @@
             <NavigationViewItemHeader Content="Main" />
             <NavigationViewItem Content="Upload" Icon="Upload"/>
             <NavigationViewItemSeparator/>
-            <NavigationViewItem DataContext="{Binding SelectedList}" Content="Download" Icon="Download"/>
-            <NavigationViewItem DataContext="{Binding SelectedList}" Content="Share" Icon="Share"/>
+            <NavigationViewItem Name="Download" Content="Download" Icon="Download"/>
+            <NavigationViewItem Name="Share"  Content="Share" Icon="Share"/>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Name="LogOut" Content="Log Out" Icon="Back"/>
         </NavigationView.MenuItems>
 
             <NavigationView.Content>
-                <uc:FilesViewerUserControl FilesCollection="{Binding FilesList}" SelectedFiles="{Binding SelectedList}"/>
+                <uc:FilesViewerUserControl FilesCollection="{Binding FilesList}" SelectedFiles="{x:Bind VM.SelectedList, Mode=TwoWay}"/>
             </NavigationView.Content>
     </NavigationView>
 

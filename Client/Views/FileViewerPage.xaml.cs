@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,11 @@ namespace Client.Views
     /// </summary>
     public sealed partial class FileViewerPage : Page
     {
+        public FileViewerViewModel VM { get
+            { return (FileViewerViewModel)DataContext; }
+            }
+
+
         public FileViewerPage()
         {
             this.InitializeComponent();

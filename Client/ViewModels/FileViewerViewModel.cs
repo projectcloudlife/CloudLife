@@ -1,5 +1,6 @@
 ﻿using Client.Command.Attributes;
 using ClientLogic.Interfaces;
+using ClientLogic.Models;
 using Common.Models;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
@@ -17,16 +18,21 @@ namespace Client.ViewModels
 {
     public class FileViewerViewModel:ViewModel
     {
-        public FileViewerViewModel(INavigationService navService, ICloudFileService cloudFileService)
+        public FileViewerViewModel(INavigationService navService, ICloudFileService cloudFileService
+            ,ILocalFileService localFileService, IAuthService authService)
         {
             _navigationService = navService;
             _cloudFileService = cloudFileService;
+            _localFileService = localFileService;
+            _authService = authService;
             InitFiles();
             
         }
 
         INavigationService _navigationService;
         ICloudFileService _cloudFileService;
+        ILocalFileService _localFileService;
+        IAuthService _authService;
 
 
         public ObservableCollection<FileCommon> FilesList { get; set; }
@@ -35,6 +41,7 @@ namespace Client.ViewModels
 
         public async void InitFiles()
         {
+            SelectedList = new ObservableCollection<FileCommon>();
             //FilesList = new List<FileCommon>(await _cloudFileService.GetFiles(true));
             FilesList = new ObservableCollection<FileCommon>
             {
@@ -63,10 +70,10 @@ namespace Client.ViewModels
             };
             Notify(nameof(FilesList));
         }
-        [CommandExecute]
+
         public void LogOutCommand()
         {
-            //logout
+            _authService.Logout();
             _navigationService.GoBack();
         }
 
@@ -75,14 +82,34 @@ namespace Client.ViewModels
             _navigationService.NavigateTo("UploadPage");
         }
 
+        public async  void DownloadCommand()
+        {
+            var path = await _localFileService.SelectFolder();
+
+            SelectedList.AsParallel().ForAll(async (file) =>
+            {
+                var downloadedFile = await _cloudFileService.DownloadFile(file);
+                //to client extension
+                FileClient fileClient = new FileClient
+                {
+                    Name = downloadedFile.Name,
+                    Data = downloadedFile.Data,
+                    Path = path
+                };  
+                await _localFileService.SaveFile(fileClient);
+            });
+        }
+
+        public void ShareCommand()
+        {
+           
+        }
+
         [CommandExecute]
         void NavCommand(NavigationViewItemInvokedEventArgs args)
         {
             MethodInfo mi = this.GetType().GetMethod($"{args.InvokedItemContainer.Name}Command");
-            if (args.InvokedItemContainer.DataContext != this)
-            {
-            var context = (ObservableCollection<FileCommon>)args.InvokedItemContainer.DataContext;
-            }
+
             mi.Invoke(this, null);
 
         }
