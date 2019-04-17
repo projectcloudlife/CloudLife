@@ -122,17 +122,7 @@
     <Compile Include="Command\Attributes\CommandCanExecute.cs" />
     <Compile Include="Command\Attributes\CommandExecute.cs" />
     <Compile Include="Command\Command.cs" />
-    <Compile Include="Interfaces\IAuthService.cs" />
-    <Compile Include="Interfaces\ICloudFileService.cs" />
-    <Compile Include="Interfaces\IConfigurationService.cs" />
-    <Compile Include="Interfaces\IHttpService.cs" />
-    <Compile Include="Interfaces\ILocalFileService.cs" />
-    <Compile Include="Models\Configuration.cs" />
-    <Compile Include="Models\FileClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AuthService.cs" />
-    <Compile Include="Services\CloudFileService.cs" />
-    <Compile Include="Services\HttpService.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\LocalFileService.cs" />
     <Compile Include="ViewModels\ClientLocator.cs" />
@@ -194,16 +184,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientLogic\ClientLogic.csproj">
-      <Project>{21da3e65-bfdd-48e6-bb66-295b57445cfb}</Project>
-      <Name>ClientLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{63bb9c0a-3957-4c58-a81b-f01f4dfe7b26}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="UserControls\CommandWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,7 +205,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ClientLogic\ClientLogic.csproj">
+      <Project>{21da3e65-bfdd-48e6-bb66-295b57445cfb}</Project>
+      <Name>ClientLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{63bb9c0a-3957-4c58-a81b-f01f4dfe7b26}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

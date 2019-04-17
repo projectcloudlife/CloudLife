@@ -33,7 +33,7 @@
         </NavigationView.MenuItems>
 
             <NavigationView.Content>
-                <uc:FIlesViewerUserControl TestInt="{Binding INT}" FilesCollection="{Binding FilesList}"/>
+                <uc:FilesViewerUserControl />
             </NavigationView.Content>
     </NavigationView>
 

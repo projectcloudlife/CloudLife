@@ -1,5 +1,4 @@
-﻿using Common.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,42 +14,27 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Client.UserControls
 {
-    public sealed partial class FIlesViewerUserControl : UserControl
+    public sealed partial class FilesViewerUserControl : UserControl
     {
-        public FIlesViewerUserControl()
+        public FilesViewerUserConStrol()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
         }
 
-
-
-        public int TestInt
+        public ObservableCollection<FileCommon> FileCollection
         {
-            get { return (int)GetValue(TestIntProperty); }
-            set { SetValue(TestIntProperty, value); }
+            get { return (ObservableCollection<FileCommon>)GetValue(FileCommonsProperty); }
+            set { SetValue(FileCollectionProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TestInt.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TestIntProperty =
-            DependencyProperty.Register("TestInt", typeof(int), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
-
-
-
-        public ObservableCollection<FileCommon> FilesCollection
-        {
-            get { return (ObservableCollection<FileCommon>)GetValue(MyPropertyProperty); }
-            set {
-                SetValue(MyPropertyProperty, value); 
-}
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register(nameof(FilesCollection), typeof(ObservableCollection<FileCommon>), typeof(FIlesViewerUserControl), new PropertyMetadata(0));
+        // Using a DependencyProperty as the backing store for FileCommons.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FileCollectionProperty =
+            DependencyProperty.Register("FileCollection", typeof(ObservableCollection<FileCommon>), typeof(FilesViewerUserControl), new PropertyMetadata(0));
 
 
     }

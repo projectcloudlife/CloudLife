@@ -1,6 +1,6 @@
 ﻿
 using Client.Command.Attributes;
-using Client.Interfaces;
+using ClientLogic.Interfaces;
 using Common.Enums;
 using Common.Models;
 using GalaSoft.MvvmLight.Views;

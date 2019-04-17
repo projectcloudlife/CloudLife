@@ -1,6 +1,6 @@
-﻿using Client.Interfaces;
-using Client.Services;
+﻿using Client.Services;
 using Client.Views;
+using ClientLogic.Interfaces;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
