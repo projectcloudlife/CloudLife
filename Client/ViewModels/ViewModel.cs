@@ -71,7 +71,7 @@ namespace Client.ViewModels
         Dictionary<string, object> props = new Dictionary<string, object>();
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public object this[string key]
         {
             get

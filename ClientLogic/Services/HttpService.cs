@@ -38,7 +38,8 @@ namespace Client.Services
         {
             return Request<T>(client =>
             {
-                return client.PostAsync($"{Host}/{path}", MakeContent(body));
+                var url = $"{Host}/{path}";
+                return client.PostAsync( url, MakeContent(body));
             });
         }
 

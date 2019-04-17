@@ -12,10 +12,20 @@
     DataContext="{Binding LoginVM, Source={StaticResource locator}}">
 
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Message}"/>
-            <TextBox Text="{Binding NewMessage, Mode=TwoWay}"/>
-            <Button Command="{Binding [ClickMe]}" CommandParameter="{Binding NewMessage}">click me</Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Center"  Grid.Column="1">
+            <TextBlock Text="User Name:"/>
+                <TextBox Text="{Binding UserName, Mode=TwoWay}"/>
+                <TextBlock Text="Password:"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Login" Command="{Binding [Login]}"/>
+                <Button Content="Register" Command="{Binding [Register]}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
