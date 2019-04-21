@@ -32,6 +32,8 @@ namespace Client.ViewModels
             SimpleIoc.Default.Register<IConfigurationService, ConfigurationService>();
             SimpleIoc.Default.Register<ICloudFileService, CloudFileService>();
             SimpleIoc.Default.Register<ILocalFileService, LocalFileService>();
+            SimpleIoc.Default.Register<IMessagesService, MessagesService>();
+
 
 
             SimpleIoc.Default.Register<LoginViewModel>();

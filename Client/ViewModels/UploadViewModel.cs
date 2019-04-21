@@ -17,16 +17,18 @@ namespace Client.ViewModels
     public class UploadViewModel:ViewModel
     {
         public UploadViewModel(INavigationService navigationService, ILocalFileService localFileService,
-            ICloudFileService cloudFileService)
+            ICloudFileService cloudFileService, IMessagesService messagesService)
         {
             _navigationService = navigationService;
             _localFileService = localFileService;
             _cloudFileService = cloudFileService;
+            _messagesService = messagesService;
         }
 
         INavigationService _navigationService;
         ICloudFileService _cloudFileService;
         ILocalFileService _localFileService;
+        IMessagesService _messagesService;
 
         public ObservableCollection<FileClient> UploadFilesList { get; set; }
 
@@ -47,7 +49,7 @@ namespace Client.ViewModels
             //});
             if (UploadFilesList == null || UploadFilesList.Count == 0)
             {
-                //popup
+                _messagesService.ShowMessage("Error", "Please select files to upload.");
             }
             else
             {
