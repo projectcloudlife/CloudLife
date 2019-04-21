@@ -55,11 +55,17 @@ namespace Client.Services
             
             var files = new ConcurrentBag<FileClient>();
 
-            storageFiles.AsParallel().ForAll(async file =>
+            //storageFiles.AsParallel().ForAll(async file =>
+            //{
+            //    var fileClient = await ToFileClient(file);
+            //    files.Add(fileClient);
+            //});
+
+            foreach (var file in storageFiles)
             {
                 var fileClient = await ToFileClient(file);
                 files.Add(fileClient);
-            });
+            }
 
             return files;
         }

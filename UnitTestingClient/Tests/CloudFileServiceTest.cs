@@ -74,5 +74,17 @@ namespace UnitTestingClient.Tests
             return result;
         }
 
+        async Task<TestResult> UpdateMetaData()
+        {
+            var result = new TestResult("CloudFileService UpdateMetaData", true);
+            file.IsPublic = false;
+            var res = await cloudFileService.UpdateFileMetadata(file);
+            if (res.IsPublic == true)
+            {
+                result.Passed = false;
+            }
+            return result;
+        }
+
     }
 }

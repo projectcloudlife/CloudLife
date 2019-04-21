@@ -122,11 +122,15 @@
     <Compile Include="Command\Attributes\CommandCanExecute.cs" />
     <Compile Include="Command\Attributes\CommandExecute.cs" />
     <Compile Include="Command\Command.cs" />
+    <Compile Include="Extensions\ClientExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\LocalFileService.cs" />
     <Compile Include="UserControls\FilesViewerUserControl.xaml.cs">
       <DependentUpon>FilesViewerUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UploadFilesUserControl.xaml.cs">
+      <DependentUpon>UploadFilesUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ClientLocator.cs" />
     <Compile Include="ViewModels\FileViewerViewModel.cs" />
@@ -168,6 +172,10 @@
     <Page Include="UserControls\FilesViewerUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\UploadFilesUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FileViewerPage.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -46,7 +46,15 @@ namespace Server.Services
 
         public async Task<IEnumerable<FileCommon>> GetFiles(int userId, bool withPublic)
         {
-            return await _fileRepository.GetWhere(file => file.UserId == userId && file.IsPublic == withPublic );
+            if (withPublic)
+            {
+                return await _fileRepository.GetWhere(file => file.UserId == userId || file.IsPublic == withPublic );
+            }
+            else
+            {
+                return await _fileRepository.GetWhere(file => file.UserId == userId);
+
+            }
         }
 
         async public Task<FileCommon> UpadateFileMetadata(FileCommon file)

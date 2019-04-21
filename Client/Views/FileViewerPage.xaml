@@ -24,7 +24,7 @@
         </i:Interaction.Behaviors>
         <NavigationView.MenuItems>
             <NavigationViewItemHeader Content="Main" />
-            <NavigationViewItem Content="Upload" Icon="Upload"/>
+            <NavigationViewItem Name="Upload" Content="Upload" Icon="Upload"/>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Name="Download" Content="Download" Icon="Download"/>
             <NavigationViewItem Name="Share"  Content="Share" Icon="Share"/>

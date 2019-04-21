@@ -1,4 +1,5 @@
 ﻿using Client.Command.Attributes;
+using Client.Extensions;
 using ClientLogic.Interfaces;
 using ClientLogic.Models;
 using Common.Models;
@@ -42,21 +43,22 @@ namespace Client.ViewModels
         public async void InitFiles()
         {
             SelectedList = new ObservableCollection<FileCommon>();
-            //FilesList = new List<FileCommon>(await _cloudFileService.GetFiles(true));
+            //FilesList = new ObservableCollection<FileCommon>(await _cloudFileService.GetFiles(true));
+
             FilesList = new ObservableCollection<FileCommon>
             {
                 new FileCommon{Name="fff.jpg",
                 SizeInBytes=2343,
                 IsPublic=true,
                 UploadDate = DateTime.UtcNow
-               
+
                 },
                 new FileCommon{Name="dddddd.exe",
                 SizeInBytes=2343,
                 IsPublic=true,
                 UploadDate = DateTime.UtcNow
 
-        },     
+        },
                 new FileCommon{Name="fff.jpg",
                 SizeInBytes=2343,
                 IsPublic=false,
@@ -89,29 +91,26 @@ namespace Client.ViewModels
             SelectedList.AsParallel().ForAll(async (file) =>
             {
                 var downloadedFile = await _cloudFileService.DownloadFile(file);
-                //to client extension
-                FileClient fileClient = new FileClient
-                {
-                    Name = downloadedFile.Name,
-                    Data = downloadedFile.Data,
-                    Path = path
-                };  
+                var fileClient = downloadedFile.ToClient();
+                fileClient.Path = path;            
                 await _localFileService.SaveFile(fileClient);
             });
         }
 
         public void ShareCommand()
         {
-           
+            SelectedList.AsParallel().ForAll(async (file) =>
+            {
+                file.IsPublic = true;
+                await _cloudFileService.UpdateFileMetadata(file);
+            });
         }
 
         [CommandExecute]
         void NavCommand(NavigationViewItemInvokedEventArgs args)
         {
             MethodInfo mi = this.GetType().GetMethod($"{args.InvokedItemContainer.Name}Command");
-
             mi.Invoke(this, null);
-
         }
     }
 
