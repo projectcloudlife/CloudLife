@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace UnitTestingClient.Models
@@ -16,12 +18,17 @@ namespace UnitTestingClient.Models
             foreach (var testType in testTypes)
             {
                 var test = (Test)Activator.CreateInstance(testType);
-                var results = test.RunTest();
+                IEnumerable<TestResult> results = null;
+                    results = test.RunTest();
 
-                foreach (var result in results)
+                if (results != null)
                 {
-                    PrintTestResult(result);
+                    foreach (var result in results)
+                    {
+                        PrintTestResult(result);
+                    }
                 }
+
             }
 
         }
@@ -29,7 +36,7 @@ namespace UnitTestingClient.Models
         public static void PrintTestResult(TestResult testResult)
         {
             var passedString = testResult.Passed ? "Passed" : "Failed";
-            var Color = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red; 
+            var Color = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"{testResult.Name}: ");
             Console.ForegroundColor = Color;

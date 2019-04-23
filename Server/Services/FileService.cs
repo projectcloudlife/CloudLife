@@ -59,7 +59,7 @@ namespace Server.Services
 
         async public Task<FileCommon> UpadateFileMetadata(FileCommon file)
         {
-            if(await CanAccessFile(file) != false)
+            if(await CanAccessFile(file) == false)
             {
                 return null;
             }

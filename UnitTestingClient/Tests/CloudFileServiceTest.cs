@@ -14,16 +14,9 @@ namespace UnitTestingClient.Tests
 
         public CloudFileServiceTest()
         {
-            Init().Wait();
-        }
+            httpService = new HttpService(new MockConfigurationService());
+            authService = new AuthService(httpService);
 
-        async Task Init()
-        {
-            var httpService = new HttpService(new MockConfigurationService());
-            var authService = new AuthService(httpService);
-            var user = new AuthInfo { Username = "asdadadasd", Password = "asdadasdsaa" };
-            await authService.Register(user);
-            await authService.Login(user);
             cloudFileService = new CloudFileService(httpService);
             file = new FileCommon
             {
@@ -34,15 +27,23 @@ namespace UnitTestingClient.Tests
             };
         }
 
+        HttpService httpService;
+        AuthService authService;
+
+
         CloudFileService cloudFileService;
         FileCommon file;
         int fileId;
 
         async Task<TestResult> UploadFileTest()
         {
+            var user = new AuthInfo { Username = "asdadadasd", Password = "asdadasdsaa" };
+            await authService.Register(user);
+            await authService.Login(user);
+
             var result = new TestResult("FileService Upload File");
             fileId = await cloudFileService.UploadFile(file);
-
+            file.Id = fileId;
             result.Passed = fileId > -1;
 
             return result;
