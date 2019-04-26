@@ -1,4 +1,8 @@
-﻿using UnitTestingClient.Models;
+﻿using LiveTesting.ConsoleStandart;
+using LiveTesting.LogicObjects;
+using LiveTesting.Models;
+using System;
+using System.Collections.Generic;
 
 namespace UnitTestingClient
 {
@@ -6,7 +10,7 @@ namespace UnitTestingClient
     {
         static void Main(string[] args)
         {
-            TestRunner.RunTests();
+            ConsoleTester.RunAndPrintTests();
         }
     }
 }

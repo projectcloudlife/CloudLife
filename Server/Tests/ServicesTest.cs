@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Common.Enums;
+﻿using Common.Enums;
 using Common.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Server.Attributes;
+using LiveTesting.LogicObjects;
 using Server.DAL.Interfaces;
 using Server.Extantions;
 using Server.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Server.Controllers.Testing
+namespace Server.Tests
 {
-    [Route("api/[controller]")]
-    [TestController]
-    [ApiController]
-    public class ServiceTesterController : ControllerBase
+    public class ServicesTest : Test
     {
+
         IAuthService _authService;
         IFileService _fileService;
         ITokenGeneratorService _tokenGeneratorService;
@@ -30,7 +22,7 @@ namespace Server.Controllers.Testing
         AuthInfo _BadPasswordRegister;
         AuthInfo _BadPasswordLogin;
 
-        public ServiceTesterController(IAuthService authService, IUserRepository userRepository, IFileService fileService, ITokenGeneratorService tokenService)
+        public ServicesTest(IAuthService authService, IUserRepository userRepository, IFileService fileService, ITokenGeneratorService tokenService)
         {
             _authService = authService;
             _fileService = fileService;
@@ -43,9 +35,7 @@ namespace Server.Controllers.Testing
             _BadPasswordLogin = new AuthInfo { Username = "assaf", Password = "1" };
         }
 
-        [HttpGet]
-        [Route("Register")]
-        public async Task<ActionResult<bool>> Register()
+        async Task RegisterTest()
         {
             var goodResult = await _authService.Register(_Goodinfo);
 
@@ -53,20 +43,13 @@ namespace Server.Controllers.Testing
 
             var BadPasswordResult = await _authService.Register(_BadPasswordRegister);
 
-            if (goodResult == AuthEnum.Success &&
-                BadPasswordResult == AuthEnum.BadPassword &&
-                badUserResult == AuthEnum.BadUsername)
-            {
-                return true;
-            }
-
-            return false;
+            Assert(goodResult == AuthEnum.Success &&
+                   BadPasswordResult == AuthEnum.BadPassword &&
+                   badUserResult == AuthEnum.BadUsername);
 
         }
 
-        [HttpGet]
-        [Route("Login")]
-        public async Task<ActionResult<bool>> Login()
+        async Task LoginTest()
         {
             var info = new AuthInfo { Username = "assaf1", Password = "123456" };
 
@@ -78,20 +61,13 @@ namespace Server.Controllers.Testing
 
             var badPasswordResult = await _authService.Login(_BadPasswordLogin);
 
-            if (result.AuthResponse == AuthEnum.Success &&
-                result.Token != "" &&
-                badUserResult.AuthResponse == AuthEnum.BadUsername &&
-                badPasswordResult.AuthResponse == AuthEnum.BadPassword)
-            {
-                return true;
-            }
-
-            return false;
+            Assert(result.AuthResponse == AuthEnum.Success &&
+                   result.Token != "" &&
+                   badUserResult.AuthResponse == AuthEnum.BadUsername &&
+                   badPasswordResult.AuthResponse == AuthEnum.BadPassword);
         }
 
-        [HttpGet]
-        [Route("getById")]
-        public async Task<ActionResult<bool>> GetById()
+        async Task GetByIdTest()
         {
             var info = new AuthInfo { Username = "assaf12", Password = "123456" };
             var info2 = new AuthInfo { Username = "assa", Password = "123456" };
@@ -101,13 +77,9 @@ namespace Server.Controllers.Testing
             var id = await _userRepository.GetId(info);
             var id2 = await _userRepository.GetId(info);
             var id3 = await _userRepository.GetId(info2);
-
-            return true;
         }
 
-        [HttpGet]
-        [Route("filesservices")]
-        public async Task<ActionResult<bool>> Files()
+        public async Task FilesTest()
         {
             var info = new AuthInfo { Username = "assaf2", Password = "123456" };
 
@@ -135,7 +107,7 @@ namespace Server.Controllers.Testing
 
             var end = fileList.ToList().Count;
 
-            return (end - begin == 1);
+            Assert(end - begin == 1);
         }
 
     }

@@ -1,11 +1,8 @@
 ﻿using ClientLogic.Services;
 using Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LiveTesting.LogicObjects;
 using System.Threading.Tasks;
 using UnitTestingClient.MockedClasses;
-using UnitTestingClient.Models;
 
 namespace UnitTestingClient.Tests
 {
@@ -30,61 +27,42 @@ namespace UnitTestingClient.Tests
         HttpService httpService;
         AuthService authService;
 
-
         CloudFileService cloudFileService;
         FileCommon file;
         int fileId;
 
-        async Task<TestResult> UploadFileTest()
+        async Task UploadFileTest()
         {
             var user = new AuthInfo { Username = "asdadadasd", Password = "asdadasdsaa" };
             await authService.Register(user);
             await authService.Login(user);
 
-            var result = new TestResult("FileService Upload File");
             fileId = await cloudFileService.UploadFile(file);
             file.Id = fileId;
-            result.Passed = fileId > -1;
 
-            return result;
+            Assert(fileId > -1);
         }
 
         //need to run UploadFileTest before.
-        async Task<TestResult> DownloadFileTest()
+        async Task DownloadFileTest()
         {
-            var result = new TestResult("CloudFileService Download File", true);
-
             var res = await cloudFileService.DownloadFile(new FileCommon { Id = fileId });
 
-            if(res.SizeInBytes != file.SizeInBytes)
-            {
-                result.Passed = false;
-            }
-
-            return result;
+            Assert(res.SizeInBytes == file.SizeInBytes);
         }
 
-        async Task<TestResult> DeleteFileTest()
+        async Task DeleteFileTest()
         {
-            var result = new TestResult("CloudFileService Delete File", true);
-
             var res = await cloudFileService.DeleteFile(new FileCommon { Id = fileId });
 
-            result.Passed = res;
-
-            return result;
+            Assert(res);
         }
 
-        async Task<TestResult> UpdateMetaData()
-        {
-            var result = new TestResult("CloudFileService UpdateMetaData", true);
+        async Task UpdateMetaDataTest()
+        {  
             file.IsPublic = false;
             var res = await cloudFileService.UpdateFileMetadata(file);
-            if (res.IsPublic == true)
-            {
-                result.Passed = false;
-            }
-            return result;
+            Assert(res.IsPublic == false);
         }
 
     }

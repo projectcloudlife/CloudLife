@@ -1,13 +1,9 @@
 ﻿using ClientLogic.Services;
 using Common.Enums;
 using Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LiveTesting.LogicObjects;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using UnitTestingClient.MockedClasses;
-using UnitTestingClient.Models;
 
 namespace UnitTestingClient.Tests
 {
@@ -23,40 +19,23 @@ namespace UnitTestingClient.Tests
         AuthService authService;
         AuthInfo authInfo;
 
-        async Task<TestResult> Register()
+        async Task RegisterTest()
         {
-            var result = new TestResult("AuthService Register", true);
-
             var response = await authService.Register(authInfo);
 
-            if(response != AuthEnum.Success)
-            {
-                result.Passed = false;
-            }
+            Assert(response == AuthEnum.Success);
 
             var responseBad = await authService.Register(authInfo);
 
-            if(responseBad == AuthEnum.Success)
-            {
-                result.Passed = false;
-            }
-
-            return result;
+            Assert(responseBad != AuthEnum.Success);
         }
 
         //if register test didnt run will fail!!!!
-        async Task<TestResult> Login()
+        async Task LoginTest()
         {
-            var result = new TestResult("AuthService Login", true);
-
             var response = await authService.Login(authInfo);
 
-            if(response.AuthResponse != AuthEnum.Success)
-            {
-                result.Passed = false;
-            }
-
-            return result;
+            Assert(response.AuthResponse == AuthEnum.Success);
         }
 
     }

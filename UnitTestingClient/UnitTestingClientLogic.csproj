@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveTesting" Version="1.0.0" />
+    <PackageReference Include="LiveTesting.ConsoleStandart" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ClientLogic\ClientLogic.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>

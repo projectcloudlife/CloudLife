@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LiveTesting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +44,7 @@ namespace Server
                 //Add production DB.
             }
 
+            services.AddLiveTesting();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddScoped<IAuthService, AuthService>();
@@ -68,6 +70,7 @@ namespace Server
                 app.UseHsts();
             }
 
+            //app.UseLiveTesting();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
