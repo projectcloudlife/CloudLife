@@ -20,28 +20,35 @@ namespace Client.ViewModels
     public class FileViewerViewModel : ViewModel
     {
         public FileViewerViewModel(INavigationService navService, ICloudFileService cloudFileService
-            , ILocalFileService localFileService, IAuthService authService)
+            , ILocalFileService localFileService, IAuthService authService, IMessagesService messagesService)
         {
             _navigationService = navService;
             _cloudFileService = cloudFileService;
             _localFileService = localFileService;
             _authService = authService;
+            _messagesService = messagesService;
             _cloudFileService.FileMetaDataChanged += OnFileMetaDataChanged;
         }
 
         private void OnFileMetaDataChanged(FileCommon changedFile)
         {
-            var fileToChange = FilesList.First(file => file.Id == changedFile.Id);
-            var index = FilesList.IndexOf(fileToChange);
-            FilesList[index] = changedFile;
-            FilesList.Add(new FileCommon());
-            FilesList.RemoveAt(FilesList.Count - 1);
+            var list = FilesList.Select(file =>
+            {
+                if (file.Id == changedFile.Id)
+                {
+                    return changedFile;
+                }
+                return file;
+            });
+            FilesList = new ObservableCollection<FileCommon>(list);
+            Notify(nameof(FilesList));
         }
 
         INavigationService _navigationService;
         ICloudFileService _cloudFileService;
         ILocalFileService _localFileService;
         IAuthService _authService;
+        IMessagesService _messagesService;
 
         public ObservableCollection<FileCommon> FilesList { get; set; }
         public ObservableCollection<FileCommon> SelectedList { get; set; }
@@ -68,7 +75,19 @@ namespace Client.ViewModels
 
         public async void DownloadCommand()
         {
-            var path = await _localFileService.SelectFolder();
+
+            if (!SelectedList.Any())
+            {
+                _messagesService.ShowMessage("Select file/s to donwload", "");
+                return;
+            }
+
+            string path = await _localFileService.SelectFolder();
+
+            if(string.IsNullOrEmpty(path))
+            {
+                return;
+            }
 
             foreach (var file in SelectedList)
             {
