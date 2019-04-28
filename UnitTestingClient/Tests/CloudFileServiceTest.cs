@@ -37,7 +37,7 @@ namespace UnitTestingClient.Tests
             await authService.Register(user);
             await authService.Login(user);
 
-            fileId = await cloudFileService.UploadFile(file);
+            fileId = (await cloudFileService.UploadFile(file)).Id;
             file.Id = fileId;
 
             Assert(fileId > -1);

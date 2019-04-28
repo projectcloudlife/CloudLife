@@ -13,10 +13,12 @@ namespace Server.Services
     public class FileService : IFileService
     {
         IFileRepository _fileRepository;
+        IUserRepository _userRepository;
 
-        public FileService(IFileRepository repo)
+        public FileService(IFileRepository fileRepo, IUserRepository userRepo)
         {
-            _fileRepository = repo;
+            _fileRepository = fileRepo;
+            _userRepository = userRepo;
         }
 
         public async Task<bool> DeleteFile(FileCommon file)
@@ -44,33 +46,45 @@ namespace Server.Services
             return await _fileRepository.DownloadFile(file.Id);
         }
 
-        public async Task<IEnumerable<FileCommon>> GetFiles(int userId, bool withPublic)
+        public async Task<IEnumerable<FileCommon>> GetFiles(int userId)
         {
-            if (withPublic)
-            {
-                return await _fileRepository.GetWhere(file => file.UserId == userId || file.IsPublic == withPublic );
-            }
-            else
-            {
-                return await _fileRepository.GetWhere(file => file.UserId == userId);
 
-            }
+            var files = await _fileRepository.GetWhere(file => file.UserId == userId || (file.IsPublic == true));
+
+            files = files.Select(file =>
+            {
+                if (file.UserId == userId)
+                {
+                    file.UserName = "Me";
+                }
+
+                return file;
+            });
+
+            return files;
         }
 
         async public Task<FileCommon> UpadateFileMetadata(FileCommon file)
         {
-            if(await CanAccessFile(file) == false)
+            if (await CanAccessFile(file) == false)
             {
                 return null;
             }
 
-            return await _fileRepository.UpdateFile(file.ToDB());
+            var fileToChange = _fileRepository.GetWhere(f => f.Id == file.Id).Result.First();
+
+            fileToChange.InRecycleBin = file.InRecycleBin;
+            fileToChange.IsPublic = file.IsPublic;
+
+            return await _fileRepository.UpdateFile(fileToChange.ToDB());
         }
 
-        public async Task<int> UploadFile(FileCommon file)
+        public async Task<FileCommon> UploadFile(FileCommon file)
         {
             var fileDb = file.ToDB();
-            return await _fileRepository.UploadFile(fileDb);
+            fileDb.UserName = (await _userRepository.Get(file.UserId)).Username;
+            var uploadedFileId = await _fileRepository.UploadFile(fileDb);
+            return (await _fileRepository.GetWhere(f => f.Id == uploadedFileId)).First().ToCommon();
         }
 
         async Task<bool> CanAccessFile(FileCommon file)

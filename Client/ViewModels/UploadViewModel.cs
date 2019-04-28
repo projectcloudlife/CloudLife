@@ -58,6 +58,7 @@ namespace Client.ViewModels
                     var fileToUpload = await _localFileService.GetFileWithData(file);
                     var res = await _cloudFileService.UploadFile(fileToUpload);
                 }
+
                 UploadFilesList.Clear();
             }           
         }

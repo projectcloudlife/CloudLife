@@ -32,5 +32,11 @@ namespace Client.Views
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            VM.InitFiles();
+            base.OnNavigatedTo(e);
+        }
     }
 }

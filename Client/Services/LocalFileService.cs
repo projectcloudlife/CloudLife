@@ -17,7 +17,7 @@ namespace Client.Services
     {
         async public Task<FileCommon> GetFileWithData(FileClient file)
         {
-            var storageFile = await StorageFile.GetFileFromPathAsync($"{file.Path}/{file.Name}");
+            var storageFile = await StorageFile.GetFileFromPathAsync($"{file.Path}");
             var buffer = await FileIO.ReadBufferAsync(storageFile);
             var reader = DataReader.FromBuffer(buffer);
             var data = new byte[buffer.Length];

@@ -11,6 +11,7 @@ namespace Common.Models
         /**
          * remarks contains file extantion (ex: test.txt)
          **/
+        public string UserName { get; set; }
         public string Name { get; set; }
         public bool InRecycleBin { get; set; }
         public DateTime UploadDate { get; set; }

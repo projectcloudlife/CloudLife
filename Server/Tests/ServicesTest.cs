@@ -87,7 +87,7 @@ namespace Server.Tests
 
             var userId = await _userRepository.GetId(info);
 
-            var fileList = await _fileService.GetFiles(userId, true);
+            var fileList = await _fileService.GetFiles(userId);
 
             var begin = fileList.ToList().Count;
 
@@ -103,7 +103,7 @@ namespace Server.Tests
 
             await _fileService.UploadFile(file);
 
-            fileList = await _fileService.GetFiles(userId, true);
+            fileList = await _fileService.GetFiles(userId);
 
             var end = fileList.ToList().Count;
 

@@ -16,7 +16,7 @@
                 <controls:DataGridTextColumn Header="Size" Binding="{Binding SizeInBytes}"/>
                <controls:DataGridTextColumn Header="Last Modified" Binding="{Binding UploadDate}"/>
                 <controls:DataGridCheckBoxColumn Header = "Public" Binding="{Binding IsPublic}"/>
-                <controls:DataGridTextColumn Header="Owner" Binding="{Binding UserId}"/>
+                <controls:DataGridTextColumn Header="Owner" Binding="{Binding UserName}"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
     </Grid>

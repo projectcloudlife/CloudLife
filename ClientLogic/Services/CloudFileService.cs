@@ -1,5 +1,6 @@
 ﻿using ClientLogic.Interfaces;
 using Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +16,9 @@ namespace ClientLogic.Services
 
         IHttpService _httpService;
 
+        public event Action<FileCommon> FileUploaded;
+        public event Action<FileCommon> FileMetaDataChanged;
+
         public Task<bool> DeleteFile(FileCommon file)
         {
             return _httpService.Delete<bool>($"api/file/?fileId={file.Id}");
@@ -25,19 +29,25 @@ namespace ClientLogic.Services
             return _httpService.Post<FileCommon, FileCommon>("api/file/download", file);
         }
 
-        public Task<IEnumerable<FileCommon>> GetFiles(bool withPublic)
+        public Task<IEnumerable<FileCommon>> GetFiles()
         {
             return _httpService.Get<IEnumerable<FileCommon>>("api/file");
         }
 
-        public Task<int> UploadFile(FileCommon file)
+        public async Task<FileCommon> UploadFile(FileCommon file)
         {
-            return _httpService.Post<int, FileCommon>("api/file/upload", file);
+            var uploadedFile = await _httpService.Post<FileCommon, FileCommon>("api/file/upload", file);
+
+            FileUploaded?.Invoke(uploadedFile);
+
+            return uploadedFile;
         }
 
-        public Task<FileCommon> UpdateFileMetadata(FileCommon file)
+        public async Task<FileCommon> UpdateFileMetadata(FileCommon file)
         {
-            return _httpService.Put<FileCommon, FileCommon>("api/file", file);
+            var fileUpdated = await _httpService.Put<FileCommon, FileCommon>("api/file", file);
+            FileMetaDataChanged(fileUpdated);
+            return fileUpdated;
         }
     }
 }

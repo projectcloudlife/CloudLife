@@ -29,17 +29,18 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FileCommon>>> GetFile()
         {
-            var files = await _fileService.GetFiles(this.UserId(), false);
+            var files = await _fileService.GetFiles(this.UserId());
             return new JsonResult(files);
         }
 
         [HttpPost()]
+        [RequestSizeLimit(100_000_000_000)]
         [Route("upload")]
-        public async Task<ActionResult<int>> UploadFile([FromBody] FileCommon file)
+        public async Task<ActionResult<FileCommon>> UploadFile([FromBody] FileCommon file)
         {
             file.UserId = this.UserId();
-            var fileId = await _fileService.UploadFile(file.ToDB());
-            return new JsonResult(fileId);
+            var uploadedFile = await _fileService.UploadFile(file.ToDB());
+            return new JsonResult(uploadedFile);
         }
 
         [HttpDelete()]

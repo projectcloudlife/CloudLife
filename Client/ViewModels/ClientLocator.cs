@@ -21,7 +21,6 @@ namespace Client.ViewModels
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             var nav = new NavigationService();
-
             nav.Configure("LoginPage", typeof(LoginPage));
             nav.Configure("UploadPage", typeof(UploadPage));
             nav.Configure("FileViewerPage", typeof(FileViewerPage));

@@ -47,7 +47,8 @@ namespace Server.Extantions
                 IsPublic = file.IsPublic,
                 Name = file.Name,
                 SizeInBytes = file.SizeInBytes,
-                UserId = file.UserId
+                UserId = file.UserId,
+                UserName = file.UserName
             };
         }
 
@@ -61,7 +62,8 @@ namespace Server.Extantions
                 IsPublic = file.IsPublic,
                 Name = file.Name,
                 SizeInBytes = file.SizeInBytes,
-                UserId = file.UserId
+                UserId = file.UserId,
+                UserName = file.UserName
             };
         }
 
