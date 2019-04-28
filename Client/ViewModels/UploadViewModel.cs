@@ -42,11 +42,6 @@ namespace Client.ViewModels
 
         public async void UploadCommand()
         {
-            //UploadFilesList.AsParallel().ForAll(async file =>
-            //{
-            //    var fileToUpload = file.ToCommon();
-            //    await _cloudFileService.UploadFile(fileToUpload);
-            //});
             if (UploadFilesList == null || UploadFilesList.Count == 0)
             {
                 _messagesService.ShowMessage("Error", "Please select files to upload.");
@@ -60,6 +55,7 @@ namespace Client.ViewModels
                 }
 
                 UploadFilesList.Clear();
+                _navigationService.GoBack();
             }           
         }
 

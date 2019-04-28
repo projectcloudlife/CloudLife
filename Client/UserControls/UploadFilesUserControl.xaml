@@ -18,7 +18,6 @@
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <controls:DataGridTextColumn Header="Size" Binding="{Binding SizeInBytes}"/>
-                <controls:DataGridTextColumn Header="Last Modified" Binding="{Binding UploadDate}"/>
                 <controls:DataGridTextColumn Header="Path" Binding="{Binding Path}"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>

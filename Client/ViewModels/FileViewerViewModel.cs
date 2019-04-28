@@ -50,7 +50,8 @@ namespace Client.ViewModels
         public async void InitFiles()
         {
             SelectedList = new ObservableCollection<FileCommon>();
-            FilesList = new ObservableCollection<FileCommon>(await _cloudFileService.GetFiles());
+            FilesList = new ObservableCollection<FileCommon>((await _cloudFileService.GetFiles())
+                .Where(file => file.InRecycleBin == false));                
             Notify(nameof(FilesList));
         }
 
@@ -80,13 +81,28 @@ namespace Client.ViewModels
 
         }
 
-        public void ShareCommand()
+        public void PublicCommand()
         {
             foreach (var file in SelectedList)
             {
-                file.IsPublic = true;
+                file.IsPublic = !file.IsPublic;
                 _cloudFileService.UpdateFileMetadata(file);
             }
+        }
+
+        public void RemoveCommand()
+        {
+            foreach (var file in SelectedList)
+            {
+                _cloudFileService.DeleteFile(file);
+                FilesList.Remove(file);
+            }
+        }
+
+        public void RecycleBinCommand()
+        {
+            _navigationService.NavigateTo("RecycleBinPage");
+
         }
 
         [CommandExecute]

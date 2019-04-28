@@ -24,6 +24,7 @@ namespace Client.ViewModels
             nav.Configure("LoginPage", typeof(LoginPage));
             nav.Configure("UploadPage", typeof(UploadPage));
             nav.Configure("FileViewerPage", typeof(FileViewerPage));
+            nav.Configure("RecycleBinPage", typeof(RecycleBinPage));
 
             SimpleIoc.Default.Register<INavigationService>(() => nav);
             SimpleIoc.Default.Register<IAuthService, AuthService>();
@@ -38,11 +39,13 @@ namespace Client.ViewModels
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<UploadViewModel>();
             SimpleIoc.Default.Register<FileViewerViewModel>();
+            SimpleIoc.Default.Register<RecycleBinViewModel>();
         }
 
         public LoginViewModel LoginVM{ get => SimpleIoc.Default.GetInstance<LoginViewModel>(); }
         public UploadViewModel UploadVM{ get => SimpleIoc.Default.GetInstance<UploadViewModel>(); }
         public FileViewerViewModel FileViewerVM { get => SimpleIoc.Default.GetInstance<FileViewerViewModel>(); }
+        public RecycleBinViewModel RecycleBinVM { get => SimpleIoc.Default.GetInstance<RecycleBinViewModel>(); }
 
     }
 }

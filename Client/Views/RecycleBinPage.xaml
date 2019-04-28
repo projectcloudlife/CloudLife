@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="Client.Views.RecycleBinPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Client.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+        xmlns:uc="using:Client.UserControls"
+    DataContext="{Binding Source={StaticResource locator}, Path=RecycleBinVM}">
+
+    <Grid>
+        <NavigationView IsBackButtonVisible="Visible" IsBackEnabled="True" x:Name="NavView">
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="ItemInvoked">
+                <core:EventTriggerBehavior.Actions>
+                    <core:InvokeCommandAction Command="{Binding [NavCommand]}" />
+                </core:EventTriggerBehavior.Actions>
+            </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="BackRequested">
+                <core:EventTriggerBehavior.Actions>
+                    <core:InvokeCommandAction Command="{Binding [BackCommand]}" />
+                </core:EventTriggerBehavior.Actions>
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+        <NavigationView.MenuItems>
+            <NavigationViewItemHeader Content="Main" />
+            <NavigationViewItem Name="Recover" Content="Recover" Icon="Undo"/>
+            <NavigationViewItem Name="Delete" Content="Delete Permanently" Icon="Clear"/>
+            <NavigationViewItemSeparator/>
+        </NavigationView.MenuItems>
+
+        <NavigationView.Content>
+                <uc:FilesViewerUserControl FilesCollection="{Binding RecycleBin, Mode=TwoWay}" SelectedFiles="{Binding SelectedList, Mode=TwoWay}"/>
+        </NavigationView.Content>
+    </NavigationView>
+    </Grid>
+</Page>

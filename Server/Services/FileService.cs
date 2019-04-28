@@ -24,16 +24,20 @@ namespace Server.Services
         public async Task<bool> DeleteFile(FileCommon file)
         {
             if (await CanAccessFile(file) == false)
-                return false;
-
-            if (file.InRecycleBin == false)
             {
-                file.InRecycleBin = true;
-                await _fileRepository.UpdateFile(file.ToDB());
+                return false;
+            }
+
+            var fileToDelete = (await _fileRepository.GetWhere(f => f.Id == file.Id)).First();
+
+            if (fileToDelete.InRecycleBin == false)
+            {
+                fileToDelete.InRecycleBin = true;
+                await _fileRepository.UpdateFile(fileToDelete);
                 return true;
             }
 
-            return await _fileRepository.DeleteFile(file.Id);
+            return await _fileRepository.DeleteFile(fileToDelete.Id);
         }
         /**
          * if file not exist throw exception from repository
@@ -48,19 +52,8 @@ namespace Server.Services
 
         public async Task<IEnumerable<FileCommon>> GetFiles(int userId)
         {
-
-            var files = await _fileRepository.GetWhere(file => file.UserId == userId || (file.IsPublic == true));
-
-            files = files.Select(file =>
-            {
-                if (file.UserId == userId)
-                {
-                    file.UserName = "Me";
-                }
-
-                return file;
-            });
-
+            var files = await _fileRepository.GetWhere(file => file.UserId == userId 
+            || (file.IsPublic == true && file.InRecycleBin == false));
             return files;
         }
 
@@ -83,6 +76,7 @@ namespace Server.Services
         {
             var fileDb = file.ToDB();
             fileDb.UserName = (await _userRepository.Get(file.UserId)).Username;
+            fileDb.UploadDate = DateTime.UtcNow;
             var uploadedFileId = await _fileRepository.UploadFile(fileDb);
             return (await _fileRepository.GetWhere(f => f.Id == uploadedFileId)).First().ToCommon();
         }

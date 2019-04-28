@@ -24,10 +24,12 @@
         </i:Interaction.Behaviors>
         <NavigationView.MenuItems>
             <NavigationViewItemHeader Content="Main" />
-            <NavigationViewItem Name="Upload" Content="Upload" Icon="Upload"/>
+            <NavigationViewItem Name="Upload" Content="Upload Files" Icon="Upload"/>
+                <NavigationViewItem Name="RecycleBin" Content="Recycle Bin" Icon="Delete"/>
             <NavigationViewItemSeparator/>
-            <NavigationViewItem Name="Download" Content="Download" Icon="Download"/>
-            <NavigationViewItem Name="Share"  Content="Share" Icon="Share"/>
+            <NavigationViewItem Name="Download" Content="Download Files" Icon="Download"/>
+            <NavigationViewItem Name="Public"  Content="Public/Private" Icon="Share"/>
+            <NavigationViewItem Name="Remove"  Content="Remove Files" Icon="Clear"/>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Name="LogOut" Content="Log Out" Icon="Back"/>
         </NavigationView.MenuItems>
