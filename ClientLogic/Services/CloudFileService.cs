@@ -46,7 +46,7 @@ namespace ClientLogic.Services
         public async Task<FileCommon> UpdateFileMetadata(FileCommon file)
         {
             var fileUpdated = await _httpService.Put<FileCommon, FileCommon>("api/file", file);
-            FileMetaDataChanged(fileUpdated);
+            FileMetaDataChanged?.Invoke(fileUpdated);
             return fileUpdated;
         }
     }

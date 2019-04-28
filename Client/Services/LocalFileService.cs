@@ -53,6 +53,7 @@ namespace Client.Services
 
             var storageFiles = await filePicker.PickMultipleFilesAsync();
             
+
             var files = new ConcurrentBag<FileClient>();
 
             //storageFiles.AsParallel().ForAll(async file =>
@@ -91,7 +92,7 @@ namespace Client.Services
             folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
             folderPicker.FileTypeFilter.Add("*");
             var folder = await folderPicker.PickSingleFolderAsync();
-            return folder.Path;
+            return folder?.Path;
         }
     }
 }

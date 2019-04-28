@@ -1,10 +1,5 @@
 ﻿using ClientLogic.Models;
 using Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.Extensions
 {
@@ -24,6 +19,12 @@ namespace Client.Extensions
                 UploadDate = file.UploadDate
                 
             };
+        }
+
+        public static void UpdateMetadata(this FileCommon file, FileCommon fileToCopy)
+        {
+            file.InRecycleBin = fileToCopy.InRecycleBin;
+            file.IsPublic = fileToCopy.IsPublic;
         }
 
         public static FileClient ToClient(this FileCommon file)
